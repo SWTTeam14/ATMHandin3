@@ -50,6 +50,7 @@
     <Compile Include="Classes\Airspace.cs" />
     <Compile Include="Classes\AMSController.cs" />
     <Compile Include="Classes\Calculate.cs" />
+    <Compile Include="Classes\CoalitionAvoidanceSystem.cs" />
     <Compile Include="Classes\Decoder.cs" />
     <Compile Include="Classes\Timer.cs" />
     <Compile Include="Events\AircraftsFilteredEventArgs.cs" />
