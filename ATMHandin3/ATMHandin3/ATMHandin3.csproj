@@ -54,6 +54,9 @@
     <Compile Include="Classes\Timer.cs" />
     <Compile Include="Events\AircraftsFilteredEventArgs.cs" />
     <Compile Include="Events\DataDecodedEventArgs.cs" />
+    <Compile Include="Events\SeparationEventArgs.cs" />
+    <Compile Include="Events\TrackEnteredAirspaceEventArgs.cs" />
+    <Compile Include="Events\TrackLeftAirspaceEventArgs.cs" />
     <Compile Include="Events\TransponderDataItemEventArgs.cs" />
     <Compile Include="Interfaces\IAMSController.cs" />
     <Compile Include="Interfaces\IDecoder.cs" />

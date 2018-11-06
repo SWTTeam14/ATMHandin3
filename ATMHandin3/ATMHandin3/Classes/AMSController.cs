@@ -11,7 +11,11 @@ namespace ATMHandin3.Classes
     public class AMSController : IAMSController
     {
         public event EventHandler<AircraftsFilteredEventArgs> FilteredAircraftsEvent;
-         
+        public event EventHandler<TrackEnteredAirspaceEventArgs> TrackEnteredAirspaceEvent;
+        public event EventHandler<TrackLeftAirspaceEventArgs> TrackLeftAirspaceEvent;
+        public event EventHandler<SeparationEventArgs> SeparationEvent;
+
+
         private IDecoder _decoder;
         public AMSController(IDecoder decoder)
         {
