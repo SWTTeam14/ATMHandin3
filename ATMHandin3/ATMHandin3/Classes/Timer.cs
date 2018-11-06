@@ -21,7 +21,7 @@ namespace ATMHandin3.Classes
             timer = new System.Timers.Timer();
             // Bind OnTimerEvent with an object of this, and set up the event
             timer.Elapsed += new System.Timers.ElapsedEventHandler(OnTimerEvent);
-            timer.Interval = 5000; // 5 second intervals
+            timer.Interval = 1000; // 1 second intervals
             timer.AutoReset = true; // Repeatable timer
         }
 
