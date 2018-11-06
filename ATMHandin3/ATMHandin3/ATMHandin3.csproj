@@ -51,6 +51,7 @@
     <Compile Include="Classes\AMSController.cs" />
     <Compile Include="Classes\Calculate.cs" />
     <Compile Include="Classes\Decoder.cs" />
+    <Compile Include="Classes\Timer.cs" />
     <Compile Include="Events\AircraftsFilteredEventArgs.cs" />
     <Compile Include="Events\DataDecodedEventArgs.cs" />
     <Compile Include="Events\TransponderDataItemEventArgs.cs" />
@@ -58,6 +59,9 @@
     <Compile Include="Interfaces\ICalculate.cs" />
     <Compile Include="Interfaces\IAMSController.cs" />
     <Compile Include="Interfaces\IDecoder.cs" />
+    <Compile Include="Interfaces\IAirspace.cs" />
+    <Compile Include="Interfaces\ICalculate.cs" />
+    <Compile Include="Interfaces\ITimer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
