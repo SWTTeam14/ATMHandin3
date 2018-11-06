@@ -11,11 +11,15 @@ namespace ATMHandin3.Classes
     public class AMSController : IAMSController
     {
         public event EventHandler<AircraftsFilteredEventArgs> FilteredAircraftsEvent;
-         
+        private List<Aircraft> filteredAircrafts; 
+
         private IDecoder _decoder;
-        public AMSController(IDecoder decoder)
+        private IAirspace _airspace;
+        public AMSController(IDecoder decoder, IAirspace airspace)
         {
+            //hsadahsd
             _decoder = decoder;
+            _airspace = airspace;
 
             _decoder.DataDecodedEvent += DataDecodedEventHandler;
         }
@@ -24,8 +28,24 @@ namespace ATMHandin3.Classes
         {
             foreach (var Aircraft in e.Aircraft)
             {
-                
+
+                if (IsAircraftInside(Aircraft, _airspace))
+                {
+                    filteredAircrafts.Add(Aircraft);
+                        
+                }
+                else if (!IsAircraftInside(Aircraft, _airspace))
+                {
+                    filteredAircrafts.Remove(Aircraft);
+                }
             }
+        }
+
+
+        public bool IsAircraftInside(Aircraft aircraft, IAirspace airspace)
+        {
+            return aircraft.XCoordinate <= airspace.East && aircraft.XCoordinate >= airspace.West && aircraft.YCoordinate <= airspace.North && aircraft.YCoordinate >= airspace.South &&
+                   aircraft.Altitude >= airspace.LowerAltitude && aircraft.Altitude <= airspace.UpperAltitude;
         }
 
 
