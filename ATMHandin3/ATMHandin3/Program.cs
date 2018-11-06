@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using ATMHandin3.Classes;
+using TransponderReceiver;
+using Decoder = ATMHandin3.Classes.Decoder;
 
 namespace ATMHandin3
 {
@@ -10,7 +14,19 @@ namespace ATMHandin3
     {
         static void Main(string[] args)
         {
-            //blablbabla
+
+            ITransponderReceiver receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
+
+            Decoder d1 = new Decoder(receiver);
+
+            
+            while (true)
+            {
+                Thread.Sleep(1000);
+                Console.Clear();
+                d1.print();
+                //cas.Seperate();
+            }
         }
     }
 }
