@@ -20,7 +20,6 @@ namespace ATMHandin3.Classes
         public DateTime TimeStamp { get; set; }
         public int CompassCourse { get; set; }
         public int HorizontalVelocity { get; set; }
-
-
+        
     }
 }
