@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ATMHandin3.Classes
 {
@@ -24,5 +20,18 @@ namespace ATMHandin3.Classes
         public DateTime TimeStamp { get; set; }
         public int CompassCourse { get; set; }
         public int HorizontalVelocity { get; set; }
+
+        public void Update(Aircraft aircraft)
+        {
+            //Calculating velocity
+            HorizontalVelocity = (int)CalculateVelocity(XCoordinate, aircraft.XCoordinate, YCoordinate, aircraft.YCoordinate, TimeStamp, td.TimeStamp);
+
+            CompassCourse = (int)CalculateAngle(XCoordinate, aircraft.XCoordinate, YCoordinate, aircraft.YCoordinate);
+
+            XCoordinate = aircraft.XCoordinate;
+            YCoordinate = aircraft.YCoordinate;
+            Altitude = aircraft.Altitude;
+            TimeStamp = aircraft.TimeStamp;
+        }
     }
 }

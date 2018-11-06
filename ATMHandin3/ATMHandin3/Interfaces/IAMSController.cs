@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATMHandin3.Classes
+namespace ATMHandin3.Interfaces
 {
-    class CalculationUnit
+    interface IAMSController
     {
     }
 }

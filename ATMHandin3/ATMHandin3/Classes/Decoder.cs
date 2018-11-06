@@ -5,14 +5,14 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using ATMHandin3.Events;
+using ATMHandin3.Interfaces;
 using TransponderReceiver;
 
 namespace ATMHandin3.Classes
 {
-   
-    public class Decoder
+
+    public class Decoder : IDecoder
     {
-        
         public event EventHandler<DataDecodedEventArgs> DataDecodedEvent;
 
         private ITransponderReceiver Receiver;
@@ -31,17 +31,20 @@ namespace ATMHandin3.Classes
             {
                 aircrafts.Add(convertData(data));
             }
-            
+
+
             var args = new DataDecodedEventArgs(aircrafts);
             onDataDecodedevent(args);
             
         }
 
-        protected void onDataDecodedevent(DataDecodedEventArgs e)
+        public void onDataDecodedevent(DataDecodedEventArgs e)
         {
             DataDecodedEvent?.Invoke(this, e);
         }
 
+
+        // Skal ikke være her
         public void print()
         {
             if (aircrafts.Count > 0)
@@ -51,9 +54,9 @@ namespace ATMHandin3.Classes
                     Console.WriteLine(a.Tag);
                 }
             }
-
         }
-        
+
+
         public Aircraft convertData(string data)
         {
             string[] tokens;
@@ -65,7 +68,7 @@ namespace ATMHandin3.Classes
             return aircraft;
         }
 
-        private DateTime convertTime(string data)
+        public DateTime convertTime(string data)
         {
 
             DateTime myDate = DateTime.ParseExact(data, "yyyyMMddHHmmssfff",
