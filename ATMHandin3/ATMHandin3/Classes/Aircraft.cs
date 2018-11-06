@@ -21,17 +21,6 @@ namespace ATMHandin3.Classes
         public int CompassCourse { get; set; }
         public int HorizontalVelocity { get; set; }
 
-        public void Update(Aircraft aircraft)
-        {
-            //Calculating velocity
-            HorizontalVelocity = (int)CalculateVelocity(XCoordinate, aircraft.XCoordinate, YCoordinate, aircraft.YCoordinate, TimeStamp, td.TimeStamp);
 
-            CompassCourse = (int)CalculateAngle(XCoordinate, aircraft.XCoordinate, YCoordinate, aircraft.YCoordinate);
-
-            XCoordinate = aircraft.XCoordinate;
-            YCoordinate = aircraft.YCoordinate;
-            Altitude = aircraft.Altitude;
-            TimeStamp = aircraft.TimeStamp;
-        }
     }
 }

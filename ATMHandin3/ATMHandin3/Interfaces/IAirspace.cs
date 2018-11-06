@@ -15,7 +15,6 @@ namespace ATMHandin3.Interfaces
         int East { get; set; }
         int LowerAltitude { get; set; }
         int UpperAltitude { get; set; }
-
-        bool IsAircraftInside(Aircraft aircraft);
+        
     }
 }
