@@ -13,66 +13,74 @@ namespace ATMHandin3.Classes
     {
         public event EventHandler<SeparationEventArgs> SeparationEvent;
 
-        private AMSController _amsController;
-        public Dictionary<string, Aircraft> _aircraftsInAirspace;
+        private IAMSController eventReceiver;
+        
         private Aircraft _tmpAircraft;
         private Aircraft _tmpAircraftToCompare;
 
         private List<Aircraft> aircraftsToSeparate;
 
-        public CoalitionAvoidanceSystem(AMSController amsController)
+        public CoalitionAvoidanceSystem(IAMSController _eventReceiver)
         {
-            _amsController = amsController;
+            eventReceiver = _eventReceiver;
 
-           // _aircraftsInAirspace = _amsController._aircraftsInsideAirspace;
+            aircraftsToSeparate = new List<Aircraft>();
+
+            eventReceiver.FilteredAircraftsEvent += ReceiverFilteredDataReady;
+
+            // _aircraftsInAirspace = _amsController._aircraftsInsideAirspace;
         }
 
-        public bool CoalitionWarning()
+        public void ReceiverFilteredDataReady(object sender, AircraftsFilteredEventArgs e)
         {
+            
+                aircraftsToSeparate = CoalitionWarning(e.filteredAircraft);
+            
+        }
 
-            for (int i = 0; i < _aircraftsInAirspace.Values.Count; i++)
+        public List<Aircraft> CoalitionWarning(List<Aircraft> aircrafts)
+        {
+            for (int i = 0; i < aircrafts.Count; i++)
             {
-                for (int j = i + 1; j < _aircraftsInAirspace.Values.Count; j++)
+                for (int j = i + 1; j < aircrafts.Count; j++)
                 {
-                    int diffAltitude = calculateAltitudeDiff(_aircraftsInAirspace.ElementAt(i).Value.Altitude,
-                        _aircraftsInAirspace.ElementAt(j).Value.Altitude);
+                    int diffAltitude = calculateAltitudeDiff(aircrafts.ElementAt(i).Altitude,
+                        aircrafts.ElementAt(j).Altitude);
 
                     double diffLongtitude = distanceTo(
-                        _aircraftsInAirspace.ElementAt(i).Value.XCoordinate,
-                        _aircraftsInAirspace.ElementAt(j).Value.XCoordinate,
-                        _aircraftsInAirspace.ElementAt(i).Value.YCoordinate,
-                        _aircraftsInAirspace.ElementAt(j).Value.YCoordinate);
+                        aircrafts.ElementAt(i).XCoordinate,
+                        aircrafts.ElementAt(j).XCoordinate,
+                        aircrafts.ElementAt(i).YCoordinate,
+                        aircrafts.ElementAt(j).YCoordinate);
 
                     if (diffAltitude <= 300 && diffLongtitude <= 5000)
                     {
-                        _tmpAircraft = _aircraftsInAirspace.ElementAt(i).Value;
-                        _tmpAircraftToCompare = _aircraftsInAirspace.ElementAt(j).Value;
+                        _tmpAircraft = aircrafts.ElementAt(i);
+                        _tmpAircraftToCompare = aircrafts.ElementAt(j);
 
                         FileStream fs = new FileStream(@"WriteLines.txt", FileMode.OpenOrCreate, FileAccess.Write);
                         StreamWriter sw = new StreamWriter(fs);
                         TextWriter tw = Console.Out;
 
                         Console.SetOut(sw);
-                        Console.WriteLine("WARNING!!!! {0}, you are on a coalition course with {1}. At: {2}. Divert course!", 
-                            _aircraftsInAirspace.ElementAt(i).Value.Tag, _aircraftsInAirspace.ElementAt(j).Value.Tag, 
-                            _aircraftsInAirspace.ElementAt(i).Value.TimeStamp);
+                        Console.WriteLine("WARNING!!!! {0}, you are on a coalition course with {1}. At: {2}. Divert course!",
+                            aircrafts.ElementAt(i).Tag, aircrafts.ElementAt(j).Tag,
+                            aircrafts.ElementAt(i).TimeStamp);
                         Console.SetOut(tw);
 
                         sw.Close();
                         fs.Close();
 
-                        Console.WriteLine("WARNING!!!! {0}, you are on a coalition course with {1}. At: {2}. Divert course!", 
-                            _aircraftsInAirspace.ElementAt(i).Value.Tag, _aircraftsInAirspace.ElementAt(j).Value.Tag, 
-                            _aircraftsInAirspace.ElementAt(i).Value.TimeStamp);
-
+                        Console.WriteLine("WARNING!!!! {0}, you are on a coalition course with {1}. At: {2}. Divert course!",
+                            aircrafts.ElementAt(i).Tag, aircrafts.ElementAt(j).Tag,
+                            aircrafts.ElementAt(i).TimeStamp);
                         
-
-                        return true;
+                        return aircrafts;
                     }
                 }
             }
             Console.WriteLine("No current coalition warnings");
-            return false;
+            return null;
         }
 
         private double distanceTo(double x1coor, double x2coor, double y1coor, double y2coor)
