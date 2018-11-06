@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATMHandin3", "ATMHandin3\ATMHandin3.csproj", "{38999ED6-E275-45C7-9813-5A53E172DB40}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transponder.Test.Unit", "Transponder.Test.Unit\Transponder.Test.Unit.csproj", "{16F51CAA-4A82-4522-98E1-79A8F2C0D35C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transponder.Test.Integration", "Transponder.Test.Integration\Transponder.Test.Integration.csproj", "{395B70F6-194B-4ADE-9F42-783B84DA0CCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{38999ED6-E275-45C7-9813-5A53E172DB40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38999ED6-E275-45C7-9813-5A53E172DB40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38999ED6-E275-45C7-9813-5A53E172DB40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16F51CAA-4A82-4522-98E1-79A8F2C0D35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16F51CAA-4A82-4522-98E1-79A8F2C0D35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16F51CAA-4A82-4522-98E1-79A8F2C0D35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16F51CAA-4A82-4522-98E1-79A8F2C0D35C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{395B70F6-194B-4ADE-9F42-783B84DA0CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{395B70F6-194B-4ADE-9F42-783B84DA0CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{395B70F6-194B-4ADE-9F42-783B84DA0CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{395B70F6-194B-4ADE-9F42-783B84DA0CCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
