@@ -9,14 +9,14 @@ namespace ATMHandin3.Classes
 {
     public class Airspace : IAirspace
     {
-        public Airspace(int South, int West, int North, int East, int LowerAltitude, int UpperAltitude)
+        public Airspace()
         {
-            this.South = South;
-            this.West = West;
-            this.North = North;
-            this.East = East;
-            this.LowerAltitude = LowerAltitude;
-            this.UpperAltitude = UpperAltitude;
+            South = 10000;
+            West = 10000;
+            North = 90000;
+            East = 90000;
+            LowerAltitude = 500;
+            UpperAltitude = 20000;
 
         }
         public int South { get; set; }
@@ -26,10 +26,6 @@ namespace ATMHandin3.Classes
         public int LowerAltitude { get; set; }
         public int UpperAltitude { get; set; }
 
-        public bool IsAircraftInside(Aircraft aircraft)
-        {
-            return aircraft.XCoordinate <= East && aircraft.XCoordinate >= West && aircraft.YCoordinate <= North && aircraft.YCoordinate >= South &&
-                   aircraft.Altitude >= LowerAltitude && aircraft.Altitude <= UpperAltitude;
-        }
+
     }
 }
