@@ -13,8 +13,8 @@ namespace ATMHandin3.Classes
         public event EventHandler<AircraftsFilteredEventArgs> FilteredAircraftsEvent;
         public event EventHandler<TrackEnteredAirspaceEventArgs> TrackEnteredAirspaceEvent;
         public event EventHandler<TrackLeftAirspaceEventArgs> TrackLeftAirspaceEvent;
-        public event EventHandler<SeparationEventArgs> SeparationEvent;
 
+        private List<Aircraft> filteredAircrafts;
 
         private IDecoder _decoder;
         private IAirspace _airspace;

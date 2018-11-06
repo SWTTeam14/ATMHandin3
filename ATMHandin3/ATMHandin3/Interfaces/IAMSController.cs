@@ -12,7 +12,6 @@ namespace ATMHandin3.Interfaces
         event EventHandler<AircraftsFilteredEventArgs> FilteredAircraftsEvent;
         event EventHandler<TrackEnteredAirspaceEventArgs> TrackEnteredAirspaceEvent;
         event EventHandler<TrackLeftAirspaceEventArgs> TrackLeftAirspaceEvent;
-        event EventHandler<SeparationEventArgs> SeparationEvent;
 
     }
 }
