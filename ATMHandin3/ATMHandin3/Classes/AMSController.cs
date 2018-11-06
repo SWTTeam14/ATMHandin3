@@ -37,13 +37,16 @@ namespace ATMHandin3.Classes
                 if (IsAircraftInside(Aircraft, _airspace))
                 {
                     filteredAircrafts.Add(Aircraft);
-                         
+                    //TrackEnteredAirspaceEvent(this, new TrackEnteredAirspaceEventArgs(Aircraft));
                 }
-                //else if (!IsAircraftInside(Aircraft, _airspace))
-                //{
-                //    filteredAircrafts.Remove(Aircraft);
-                //}
+                else if (!IsAircraftInside(Aircraft, _airspace))
+                {
+                    filteredAircrafts.Remove(Aircraft);
+                    //TrackLeftAirspaceEvent(this, new TrackLeftAirspaceEventArgs(Aircraft));
+                }
             }
+
+            FilteredAircraftsEvent(this, new AircraftsFilteredEventArgs(filteredAircrafts));
         }
 
 

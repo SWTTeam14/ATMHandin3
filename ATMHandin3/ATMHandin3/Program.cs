@@ -18,7 +18,7 @@ namespace ATMHandin3
             ITransponderReceiver receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
 
             Decoder d1 = new Decoder(receiver);
-            AMSController ams = new AMSController(d1,new Airspace());
+            AMSController ams = new AMSController(d1, new Airspace());
 
 
             while (true)
