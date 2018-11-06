@@ -9,10 +9,10 @@ namespace ATMHandin3.Events
 {
     public class AircraftsFilteredEventArgs
     {
-        public AircraftsFilteredEventArgs(List<Aircraft> aircrafts)
+        public AircraftsFilteredEventArgs(IDictionary<string, Aircraft> aircrafts)
         {
             filteredAircraft = aircrafts;
         }
-        public List<Aircraft> filteredAircraft;
+        public IDictionary<string, Aircraft> filteredAircraft;
     }
 }

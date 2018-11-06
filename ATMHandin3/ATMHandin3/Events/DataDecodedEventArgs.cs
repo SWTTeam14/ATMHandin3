@@ -11,9 +11,9 @@ namespace ATMHandin3.Events
     {
         public DataDecodedEventArgs(List<Aircraft> aircrafts)
         {
-            Aircraft = aircrafts;
+            Aircrafts = aircrafts;
         }
 
-        public List<Aircraft> Aircraft { get; }
+        public List<Aircraft> Aircrafts { get; }
     }
 }

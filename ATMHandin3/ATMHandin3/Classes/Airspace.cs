@@ -9,15 +9,15 @@ namespace ATMHandin3.Classes
 {
     public class Airspace : IAirspace
     {
-        public Airspace()
+        public Airspace(int South, int West, int North, int East, int LowerAltitude, int UpperAltitude)
         {
-            South = 10000;
-            West = 10000;
-            North = 90000;
-            East = 90000;
-            LowerAltitude = 500;
-            UpperAltitude = 20000;
-
+            this.South = South;
+            this.West = West;
+            this.North = North;
+            this.East = East;
+            this.LowerAltitude = LowerAltitude;
+            this.UpperAltitude = UpperAltitude;
+            
         }
         public int South { get; set; }
         public int West { get; set; }

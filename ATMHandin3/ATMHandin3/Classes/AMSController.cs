@@ -15,40 +15,46 @@ namespace ATMHandin3.Classes
         public event EventHandler<TrackEnteredAirspaceEventArgs> TrackEnteredAirspaceEvent;
         public event EventHandler<TrackLeftAirspaceEventArgs> TrackLeftAirspaceEvent;
 
-        private List<Aircraft> filteredAircrafts;
+        private IDictionary<string, Aircraft> filteredAircrafts = new Dictionary<string, Aircraft>();
 
         private IDecoder _decoder;
         private IAirspace _airspace;
         public AMSController(IDecoder decoder, IAirspace airspace)
         {
-            //hsadahsd
             _decoder = decoder;
             _airspace = airspace;
-            filteredAircrafts = new List<Aircraft>();
-
             _decoder.DataDecodedEvent += DataDecodedEventHandler;
         }
 
         public void DataDecodedEventHandler(object sender, DataDecodedEventArgs e)
         {
-            foreach (var Aircraft in e.Aircraft)
+            foreach (var aircraft in e.Aircrafts)
             {
 
-                if (IsAircraftInside(Aircraft, _airspace))
+                if (IsAircraftInside(aircraft, _airspace))
                 {
-                    filteredAircrafts.Add(Aircraft);
-                    //TrackEnteredAirspaceEvent(this, new TrackEnteredAirspaceEventArgs(Aircraft));
+                    if (filteredAircrafts.ContainsKey(aircraft.Tag))
+                    {
+                        Calculate.Update(filteredAircrafts[aircraft.Tag], aircraft);
+                    }
+                    filteredAircrafts[aircraft.Tag] = aircraft;
                 }
-                else if (!IsAircraftInside(Aircraft, _airspace))
+                else
                 {
-                    filteredAircrafts.Remove(Aircraft);
-                    //TrackLeftAirspaceEvent(this, new TrackLeftAirspaceEventArgs(Aircraft));
+                    if (filteredAircrafts.ContainsKey(aircraft.Tag))
+                    {
+                        filteredAircrafts.Remove(aircraft.Tag);
+                    }
                 }
             }
 
-            FilteredAircraftsEvent(this, new AircraftsFilteredEventArgs(filteredAircrafts));
+            onFilteredAircraftsEvent(new AircraftsFilteredEventArgs(filteredAircrafts));
         }
 
+        public void onFilteredAircraftsEvent(AircraftsFilteredEventArgs e)
+        {
+            FilteredAircraftsEvent?.Invoke(this, e);
+        }
 
         public bool IsAircraftInside(Aircraft aircraft, IAirspace airspace)
         {
@@ -56,6 +62,13 @@ namespace ATMHandin3.Classes
                    aircraft.Altitude >= airspace.LowerAltitude && aircraft.Altitude <= airspace.UpperAltitude;
         }
 
+        public void Print()
+        {
+            foreach (var entry in filteredAircrafts.ToList().OrderBy(x => x.Key))
+            {
+                Console.WriteLine(entry.Value.ToString()); ;
 
+            }
+        }
     }
 }

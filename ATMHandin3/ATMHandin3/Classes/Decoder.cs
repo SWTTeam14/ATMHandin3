@@ -32,36 +32,14 @@ namespace ATMHandin3.Classes
             {
                 aircrafts.Add(convertData(data));
             }
-
-
-            //var args = new DataDecodedEventArgs(aircrafts);
-
-            DataDecodedEvent(this, new DataDecodedEventArgs(aircrafts));
-
-            //onDataDecodedevent(args);
+            onDataDecodedEvent(new DataDecodedEventArgs(aircrafts));
         }
 
-
-
-        public void onDataDecodedevent(DataDecodedEventArgs e)
+        public void onDataDecodedEvent(DataDecodedEventArgs e)
         {
             DataDecodedEvent?.Invoke(this, e);
         }
-
-
-        // Skal ikke være her
-        public void print()
-        {
-            if (aircrafts.Count > 0)
-            {
-                foreach (var a in aircrafts)
-                {
-                    Console.WriteLine(a.Tag);
-                }
-            }
-        }
-
-
+        
         public Aircraft convertData(string data)
         {
             string[] tokens;
