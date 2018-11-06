@@ -9,12 +9,10 @@ using TransponderReceiver;
 
 namespace ATMHandin3.Classes
 {
-    public delegate void TransponderDataItemHandler(object sender, TransponderDataItemEventArgs e);
-
-
+   
     public class Decoder
     {
-        public event TransponderDataItemHandler TransponderDataItemEvent;
+        
         public event EventHandler<DataDecodedEventArgs> DataDecodedEvent;
 
         private ITransponderReceiver Receiver;
@@ -33,8 +31,7 @@ namespace ATMHandin3.Classes
             {
                 aircrafts.Add(convertData(data));
             }
-
-
+            
             var args = new DataDecodedEventArgs(aircrafts);
             onDataDecodedevent(args);
             
@@ -56,8 +53,7 @@ namespace ATMHandin3.Classes
             }
 
         }
-
-
+        
         public Aircraft convertData(string data)
         {
             string[] tokens;
