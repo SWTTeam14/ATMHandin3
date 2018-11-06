@@ -20,6 +20,7 @@ namespace ATMHandin3.Classes
 
         public Decoder(ITransponderReceiver receiver)
         {
+            
             Receiver = receiver;
             aircrafts = new List<Aircraft>();
             Receiver.TransponderDataReady += ReceiverTransponderDataReady;
@@ -33,10 +34,14 @@ namespace ATMHandin3.Classes
             }
 
 
-            var args = new DataDecodedEventArgs(aircrafts);
-            onDataDecodedevent(args);
-            
+            //var args = new DataDecodedEventArgs(aircrafts);
+
+            DataDecodedEvent(this, new DataDecodedEventArgs(aircrafts));
+
+            //onDataDecodedevent(args);
         }
+
+
 
         public void onDataDecodedevent(DataDecodedEventArgs e)
         {

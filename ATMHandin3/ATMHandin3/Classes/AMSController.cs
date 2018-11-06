@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ATMHandin3.Events;
 using ATMHandin3.Interfaces;
 
+
 namespace ATMHandin3.Classes
 {
     public class AMSController : IAMSController
@@ -23,6 +24,7 @@ namespace ATMHandin3.Classes
             //hsadahsd
             _decoder = decoder;
             _airspace = airspace;
+            filteredAircrafts = new List<Aircraft>();
 
             _decoder.DataDecodedEvent += DataDecodedEventHandler;
         }
@@ -35,12 +37,12 @@ namespace ATMHandin3.Classes
                 if (IsAircraftInside(Aircraft, _airspace))
                 {
                     filteredAircrafts.Add(Aircraft);
-                        
+                         
                 }
-                else if (!IsAircraftInside(Aircraft, _airspace))
-                {
-                    filteredAircrafts.Remove(Aircraft);
-                }
+                //else if (!IsAircraftInside(Aircraft, _airspace))
+                //{
+                //    filteredAircrafts.Remove(Aircraft);
+                //}
             }
         }
 
