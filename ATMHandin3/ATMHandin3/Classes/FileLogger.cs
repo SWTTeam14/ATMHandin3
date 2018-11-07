@@ -10,7 +10,7 @@ using ATMHandin3.Interfaces;
 
 namespace ATMHandin3.Classes
 {
-    public class FileLogger
+    public class FileLogger : IFileLogger
     {
         private ICollisionAvoidanceSystem eventReceiver;
 
@@ -23,12 +23,12 @@ namespace ATMHandin3.Classes
 
         public void ReceiverWarningRaised(object sender, SeparationEventArgs e)
         {
-            for (int i = 0; i < e.aircrafts.Count; i++)
+            for (int i = 0; i < 2; i++)
             {
-                for (int j = i+1; j < e.aircrafts.Count; j++)
+                for (int j = i+1; j < 2; j++)
                 {
-                    var air1 = e.aircrafts[i];
-                    var air2 = e.aircrafts[j];
+                    var air1 = e.a1;
+                    var air2 = e.a2;
 
                     //FileStream fs = new FileStream(@"SeparationEventLog.txt", FileMode.OpenOrCreate, FileAccess.Write);
                     //StreamWriter sw = new StreamWriter(fs);
@@ -52,7 +52,7 @@ namespace ATMHandin3.Classes
                     string writeToLog =
                         string.Format("WARNING!!!! {0}, you are on a collision course with {1}. At: {2}. Divert course!",
                         air1.Tag, air2.Tag, air1.TimeStamp);
-
+                    
                     string textInFile = File.ReadAllText(@"SeparationEventLogFile.txt");
 
                     if (!textInFile.Contains(air1.Tag))
@@ -75,7 +75,6 @@ namespace ATMHandin3.Classes
 
             
         }
-
-
+        
     }
 }

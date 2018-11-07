@@ -69,6 +69,7 @@
     <Compile Include="CalculateTest.cs" />
     <Compile Include="CollisionAvoidanceSystemTest.cs" />
     <Compile Include="DecoderTest.cs" />
+    <Compile Include="FileLoggerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,9 +7,9 @@ using ATMHandin3.Classes;
 
 namespace ATMHandin3.Events
 {
-    public class SeparationEventArgs : EventArgs
+    public class noMoreSeperationEventArgs
     {
-        public SeparationEventArgs(Aircraft aircraft1, Aircraft aircraft2)
+        public noMoreSeperationEventArgs(Aircraft aircraft1, Aircraft aircraft2)
         {
             a1 = aircraft1;
             a2 = aircraft2;
