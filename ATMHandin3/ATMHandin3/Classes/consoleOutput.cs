@@ -22,10 +22,13 @@ namespace ATMHandin3.Classes
         private List<Aircraft> aircraftsJustExistedAirspace;
 
         private List<Aircraft> aircraftsColliding;
+
         public consoleOutput(IAMSController cont, ITimer timer, ICollisionAvoidanceSystem collision)
         {
             _timer = timer;
             _collisionAvoidanceSystem = collision;
+
+            aircraftsColliding = new List<Aircraft>();
 
             aircraftsJustEnteredAirspace = new List<Aircraft>();
             aircraftsJustExistedAirspace = new List<Aircraft>();
@@ -34,13 +37,44 @@ namespace ATMHandin3.Classes
             _amscontroller.TrackEnteredAirspaceEvent += trackEnteredAirspaceEventHandler;
             _amscontroller.TrackLeftAirspaceEvent += trackLeftAirspaceEventHandler;
             _amscontroller.FilteredAircraftsEvent += aircraftsInsideAirspaceEventHandler;
-            _collisionAvoidanceSystem.SeparationEvent += collisionEventHandler;
 
+            _collisionAvoidanceSystem.SeparationEvent += collisionEventHandler;
+            _collisionAvoidanceSystem.noMoreSeperationEvent += noCollisionEventHandler;
+
+        }
+
+        public void noCollisionEventHandler(object sender, noMoreSeperationEventArgs e)
+        {
+            aircraftsColliding.Remove(e.a1);
+            aircraftsColliding.Remove(e.a2);
         }
 
         public void collisionEventHandler(object sender, SeparationEventArgs e)
         {
-            aircraftsColliding = e.aircrafts;
+            //Thread t1 = new Thread(new ThreadStart(() =>
+            //{
+            //    if (aircraftsColliding.Count == 0)
+            //    {
+            //        aircraftsColliding.Add(e.a1);
+            //        aircraftsColliding.Add(e.a2);
+            //    }
+
+            //    for (int k = 0; k < aircraftsColliding.Count; k++)
+            //    {
+            //        if (!(aircraftsColliding[k].Tag == e.a1.Tag || aircraftsColliding[k].Tag == e.a2.Tag))
+            //        {
+            //            aircraftsColliding.Add(e.a1);
+            //            aircraftsColliding.Add(e.a2);
+            //        }
+            //    }
+            //    //Thread.Sleep(5000);
+                
+            //}));
+
+            //t1.Start();
+            aircraftsColliding.Add(e.a1);
+            aircraftsColliding.Add(e.a2);
+            
         }
         public void trackEnteredAirspaceEventHandler(object sender, TrackEnteredAirspaceEventArgs e)
         {
@@ -51,14 +85,12 @@ namespace ATMHandin3.Classes
                 aircraftsJustEnteredAirspace.Add(e.aircraft);
                 Thread.Sleep(5000);
                 aircraftsJustEnteredAirspace.RemoveAll(aircraft => e.aircraft == e.aircraft);
-
-
+                
             }));
 
             t1.Start();
             
         }
-
 
 
         public void trackLeftAirspaceEventHandler(object sender, TrackLeftAirspaceEventArgs e)
@@ -113,8 +145,33 @@ namespace ATMHandin3.Classes
                 mut1.ReleaseMutex();
             }
 
+            if (aircraftsColliding.Count > 0)
+            {
+                mut1.WaitOne();
+                foreach (var aircraft in aircraftsColliding)
+                {
+  
+                    Console.WriteLine($"WARNING! Possible collision between flight {aircraft} " +
+                                      $"and {aircraft.SecondAircraft.Tag}. {aircraft.FirstAircraft.TimeStamp}");
+                }
+
+
+
+                for (int i = 0; i < aircraftsColliding.Count; i+=2)
+                {
+                    string dateTimeString = aircraftsColliding[i].TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
+
+                    string str = string.Format("\nAIRCRAFTS ARE COLLIDING: Aircraft with tag: {0} and {2} are colliding at time: {1}", aircraftsColliding[i].Tag,
+                        dateTimeString, aircraftsColliding[i+1].Tag);
+
+                    Console.WriteLine(str);
+                    aircraftsColliding.Clear();
+                }
+                mut1.ReleaseMutex();
+            }
             int count = e.filteredAircraft.Count;
             Console.WriteLine("Number of airplanes inside airspace : " + count);
+            Console.WriteLine("Number of airplanes colliding: " + aircraftsColliding.Count);
         }
 
 

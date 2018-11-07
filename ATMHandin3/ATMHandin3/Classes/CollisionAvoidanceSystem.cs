@@ -13,8 +13,10 @@ namespace ATMHandin3.Classes
     public class CollisionAvoidanceSystem : ICollisionAvoidanceSystem
     {
         public event EventHandler<SeparationEventArgs> SeparationEvent;
+        public event EventHandler<noMoreSeperationEventArgs> noMoreSeperationEvent;
+
         private IAMSController _eventReceiver;
-        private List<Aircraft> aircraftsToSeparate;
+        private List<Aircraft> aircraftsToSeparate { get; set; }
         private List<string> warnings = new List<string>();
         private double _longitudeTolerance;
         private double _altitudeTolerance;
@@ -73,11 +75,28 @@ namespace ATMHandin3.Classes
                         //fs.Close();
 
                         newWarningsList.Add(string.Format("WARNING!!!! {0}, you are on a collision course with {1}. At: {2}. Divert course!", ac1.Tag, ac2.Tag, ac1.TimeStamp));
+                        //if (aircraftsToSeparate.Count == 0)
+                        //{
+                        //    aircraftsToSeparate.Add(ac1);
+                        //    aircraftsToSeparate.Add(ac2);
+                        //}
 
-                        aircraftsToSeparate.Add(ac1);
-                        aircraftsToSeparate.Add(ac2);
+                        //for (int k = 0; k < aircraftsToSeparate.Count; k++)
+                        //{
+                        //    if (!(aircraftsToSeparate[k].Tag == ac1.Tag || aircraftsToSeparate[k].Tag == ac2.Tag))
+                        //    {
+                        //        aircraftsToSeparate.Add(ac1);
+                        //        aircraftsToSeparate.Add(ac2);
+                        //    }
+                        //}
 
                         
+                        SeparationEvent(this, new SeparationEventArgs(ac1, ac2));
+                        //onSeparationEvent(new SeparationEventArgs(ac1, ac2));
+                    }
+                    else
+                    {
+                        noMoreSeperationEvent(this, new noMoreSeperationEventArgs(ac1, ac2));
                     }
                 }
             }
@@ -91,7 +110,7 @@ namespace ATMHandin3.Classes
                 warnings = newWarningsList;
             }
 
-            onSeparationEvent(new SeparationEventArgs(aircraftsToSeparate));
+           
         }
 
         private double distanceTo(double x1coor, double x2coor, double y1coor, double y2coor)
