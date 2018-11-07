@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using ATMHandin3.Events;
 using ATMHandin3.Interfaces;
 
@@ -13,101 +9,61 @@ namespace ATMHandin3.Classes
     public class CollisionAvoidanceSystem : ICollisionAvoidanceSystem
     {
         public event EventHandler<SeparationEventArgs> SeparationEvent;
-        public event EventHandler<noMoreSeperationEventArgs> noMoreSeperationEvent;
+        public event EventHandler<SeparationAvoidedEventArgs> SeparationAvoidedEvent;
 
         private IAMSController _eventReceiver;
-        private List<Aircraft> aircraftsToSeparate { get; set; }
-        private List<string> warnings = new List<string>();
         private double _longitudeTolerance;
         private double _altitudeTolerance;
-        
+        private List<Tuple<Aircraft, Aircraft>> _collidingAircrafts = new List<Tuple<Aircraft, Aircraft>> { };
+
         public CollisionAvoidanceSystem(IAMSController eventReceiver, double longitudeTolerance, double altitudeTolerance)
         {
             _eventReceiver = eventReceiver;
-
-            //aircraftsToSeparate = new List<Aircraft>();
-
-            eventReceiver.FilteredAircraftsEvent += ReceiverFilteredDataReady;
-
-            aircraftsToSeparate = new List<Aircraft>();
-
+            _eventReceiver.FilteredAircraftsEvent += ReceiverFilteredDataReady;
             _longitudeTolerance = longitudeTolerance;
             _altitudeTolerance = altitudeTolerance;
-
-            // _aircraftsInAirspace = _amsController._aircraftsInsideAirspace;
         }
 
         public void ReceiverFilteredDataReady(object sender, AircraftsFilteredEventArgs e)
         {
-           CollisionWarning(e.filteredAircraft);
+            CollisionWarning(e.filteredAircraft);
         }
 
         public void CollisionWarning(IDictionary<string, Aircraft> aircrafts)
         {
-            var newWarningsList = new List<string>();
             for (int i = 0; i < aircrafts.Count; i++)
             {
-                for (int j = i+1; j < aircrafts.Count; j++)
+                for (int j = i + 1; j < aircrafts.Count; j++)
                 {
                     var ac1 = aircrafts.Values.ElementAt(i);
                     var ac2 = aircrafts.Values.ElementAt(j);
-                    
-                    int diffAltitude = calculateAltitudeDiff(ac1.Altitude, ac2.Altitude);
 
-                    double diffLongitude = distanceTo(
-                        ac1.XCoordinate,
-                        ac2.XCoordinate,
-                        ac1.YCoordinate,
-                        ac2.YCoordinate);
-
-                    if (diffAltitude <= _altitudeTolerance && diffLongitude <= _longitudeTolerance)
+                    if (IsColliding(ac1, ac2))
                     {
-                        //FileStream fs = new FileStream(@"WriteLines.txt", FileMode.OpenOrCreate, FileAccess.Write);
-                        //StreamWriter sw = new StreamWriter(fs);
-                        //TextWriter tw = Console.Out;
-                        //
-                        //Console.SetOut(sw);
-                        //Console.WriteLine("WARNING!!!! {0}, you are on a collision course with {1}. At: {2}. Divert course!",
-                        //    ac1.Tag, ac2.Tag, ac1.TimeStamp);
-                        //Console.SetOut(tw);
-                        //
-                        //sw.Close();
-                        //fs.Close();
-
-                        newWarningsList.Add(string.Format("WARNING!!!! {0}, you are on a collision course with {1}. At: {2}. Divert course!", ac1.Tag, ac2.Tag, ac1.TimeStamp));
-                        //if (aircraftsToSeparate.Count == 0)
-                        //{
-                        //    aircraftsToSeparate.Add(ac1);
-                        //    aircraftsToSeparate.Add(ac2);
-                        //}
-
-                        //for (int k = 0; k < aircraftsToSeparate.Count; k++)
-                        //{
-                        //    if (!(aircraftsToSeparate[k].Tag == ac1.Tag || aircraftsToSeparate[k].Tag == ac2.Tag))
-                        //    {
-                        //        aircraftsToSeparate.Add(ac1);
-                        //        aircraftsToSeparate.Add(ac2);
-                        //    }
-                        //}
-
-                        
-                        SeparationEvent(this, new SeparationEventArgs(ac1, ac2));
-                        //onSeparationEvent(new SeparationEventArgs(ac1, ac2));
+                        if (!_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
+                        {
+                            var tempTuple = new Tuple<Aircraft, Aircraft>(ac1, ac2);
+                            _collidingAircrafts.Add(tempTuple);
+                            SeparationEvent(this, new SeparationEventArgs(ac1, ac2));
+                        }
                     }
-              
+                    else
+                    {
+                        if (_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
+                        {
+                            _collidingAircrafts.RemoveAll(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag);
+                            SeparationAvoidedEvent(this, new SeparationAvoidedEventArgs(ac1, ac2));
+                        }
+                    }
                 }
             }
+        }
 
-            if (newWarningsList.Count == 0)
-            {
-                warnings = new List<string>() { "No current collision warnings" };
-            }
-            else
-            {
-                warnings = newWarningsList;
-            }
-
-           
+        private bool IsColliding(Aircraft ac1, Aircraft ac2)
+        {
+            int diffAltitude = calculateAltitudeDiff(ac1.Altitude, ac2.Altitude);
+            double diffLongitude = distanceTo(ac1.XCoordinate, ac2.XCoordinate, ac1.YCoordinate, ac2.YCoordinate);
+            return diffAltitude <= _altitudeTolerance && diffLongitude <= _longitudeTolerance;
         }
 
         private double distanceTo(double x1coor, double x2coor, double y1coor, double y2coor)
@@ -130,14 +86,6 @@ namespace ATMHandin3.Classes
             }
             diffAlti = alti2 - alti1;
             return diffAlti;
-        }
-
-        public void PrintAllWarnings()
-        {
-            foreach (var war in warnings)
-            {
-                Console.WriteLine(war);
-            }
         }
 
         public void onSeparationEvent(SeparationEventArgs e)

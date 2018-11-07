@@ -57,7 +57,7 @@
     <Compile Include="Classes\Timer.cs" />
     <Compile Include="Events\AircraftsFilteredEventArgs.cs" />
     <Compile Include="Events\DataDecodedEventArgs.cs" />
-    <Compile Include="Events\noMoreSeperationEventArgs.cs" />
+    <Compile Include="Events\SeparationAvoidedEventArgs.cs" />
     <Compile Include="Events\OnTimerEventArgs.cs" />
     <Compile Include="Events\SeparationEventArgs.cs" />
     <Compile Include="Events\TrackEnteredAirspaceEventArgs.cs" />
