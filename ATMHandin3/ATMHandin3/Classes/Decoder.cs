@@ -28,11 +28,18 @@ namespace ATMHandin3.Classes
 
         public void ReceiverTransponderDataReady(object sender, RawTransponderDataEventArgs e)
         {
+
+            aircrafts.Clear();
+
             foreach (var data in e.TransponderData)
             {
+                
                 aircrafts.Add(convertData(data));
+                
             }
-            onDataDecodedEvent(new DataDecodedEventArgs(aircrafts));
+            DataDecodedEvent(this, new DataDecodedEventArgs(aircrafts));
+
+            //onDataDecodedEvent(new DataDecodedEventArgs(aircrafts));
         }
 
         public void onDataDecodedEvent(DataDecodedEventArgs e)
