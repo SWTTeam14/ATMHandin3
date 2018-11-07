@@ -51,10 +51,12 @@
     <Compile Include="Classes\AMSController.cs" />
     <Compile Include="Classes\Calculate.cs" />
     <Compile Include="Classes\CollisionAvoidanceSystem.cs" />
+    <Compile Include="Classes\consoleOutput.cs" />
     <Compile Include="Classes\Decoder.cs" />
     <Compile Include="Classes\Timer.cs" />
     <Compile Include="Events\AircraftsFilteredEventArgs.cs" />
     <Compile Include="Events\DataDecodedEventArgs.cs" />
+    <Compile Include="Events\OnTimerEventArgs.cs" />
     <Compile Include="Events\SeparationEventArgs.cs" />
     <Compile Include="Events\TrackEnteredAirspaceEventArgs.cs" />
     <Compile Include="Events\TrackLeftAirspaceEventArgs.cs" />

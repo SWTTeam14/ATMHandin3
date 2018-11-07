@@ -15,6 +15,8 @@ namespace ATMHandin3.Classes
         public event EventHandler<TrackEnteredAirspaceEventArgs> TrackEnteredAirspaceEvent;
         public event EventHandler<TrackLeftAirspaceEventArgs> TrackLeftAirspaceEvent;
 
+        private int eventcounter = 0;
+
         private IDictionary<string, Aircraft> filteredAircrafts = new Dictionary<string, Aircraft>();
 
         private IDecoder _decoder;
@@ -33,22 +35,37 @@ namespace ATMHandin3.Classes
 
                 if (IsAircraftInside(aircraft, _airspace))
                 {
+                    
+
                     if (filteredAircrafts.ContainsKey(aircraft.Tag))
                     {
                         Calculate.Update(filteredAircrafts[aircraft.Tag], aircraft);
                     }
+
+                    if (!filteredAircrafts.ContainsKey(aircraft.Tag))
+                    {
+                        eventcounter++;
+                        Console.WriteLine("EVENT COUNTER: " + eventcounter);
+                        TrackEnteredAirspaceEvent(this, new TrackEnteredAirspaceEventArgs(aircraft));
+
+                    }
                     filteredAircrafts[aircraft.Tag] = aircraft;
+
+                    
                 }
                 else
                 {
                     if (filteredAircrafts.ContainsKey(aircraft.Tag))
                     {
                         filteredAircrafts.Remove(aircraft.Tag);
+
+                        TrackLeftAirspaceEvent(this, new TrackLeftAirspaceEventArgs(aircraft));
                     }
                 }
             }
-
-            onFilteredAircraftsEvent(new AircraftsFilteredEventArgs(filteredAircrafts));
+            FilteredAircraftsEvent(this, new AircraftsFilteredEventArgs(filteredAircrafts));
+            
+            //onFilteredAircraftsEvent(new AircraftsFilteredEventArgs(filteredAircrafts));
         }
 
         public void onFilteredAircraftsEvent(AircraftsFilteredEventArgs e)

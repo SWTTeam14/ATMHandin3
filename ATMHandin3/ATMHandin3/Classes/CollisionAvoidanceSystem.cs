@@ -71,6 +71,8 @@ namespace ATMHandin3.Classes
                         fs.Close();
 
                         newWarningsList.Add(string.Format("WARNING!!!! {0}, you are on a collision course with {1}. At: {2}. Divert course!", ac1.Tag, ac2.Tag, ac1.TimeStamp));
+
+
                     }
                 }
             }
