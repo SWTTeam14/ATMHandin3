@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 
-namespace Transponder.Test.Integration
+namespace Transponder.Test.Unit
 {
-    class Program
+    public class AMSControllerTest
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }
