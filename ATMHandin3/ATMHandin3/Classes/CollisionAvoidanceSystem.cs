@@ -74,10 +74,22 @@ namespace ATMHandin3.Classes
 
                         newWarningsList.Add(string.Format("WARNING!!!! {0}, you are on a collision course with {1}. At: {2}. Divert course!", ac1.Tag, ac2.Tag, ac1.TimeStamp));
 
-                        aircraftsToSeparate.Add(ac1);
-                        aircraftsToSeparate.Add(ac2);
+                        if (aircraftsToSeparate.Count == 0)
+                        {
+                            aircraftsToSeparate.Add(ac1);
+                            aircraftsToSeparate.Add(ac2);
+                        }
 
-                        
+                        for (int k = 0; k < aircraftsToSeparate.Count; k++)
+                        {
+                            if (!(aircraftsToSeparate[k].Tag == ac1.Tag || aircraftsToSeparate[k].Tag == ac2.Tag))
+                            {
+                                aircraftsToSeparate.Add(ac1);
+                                aircraftsToSeparate.Add(ac2);
+                            }
+                        }
+
+                        onSeparationEvent(new SeparationEventArgs(aircraftsToSeparate));
                     }
                 }
             }
@@ -90,8 +102,6 @@ namespace ATMHandin3.Classes
             {
                 warnings = newWarningsList;
             }
-
-            onSeparationEvent(new SeparationEventArgs(aircraftsToSeparate));
         }
 
         private double distanceTo(double x1coor, double x2coor, double y1coor, double y2coor)

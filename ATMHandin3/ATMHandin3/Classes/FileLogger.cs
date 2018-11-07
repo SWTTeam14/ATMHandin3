@@ -52,7 +52,7 @@ namespace ATMHandin3.Classes
                     string writeToLog =
                         string.Format("WARNING!!!! {0}, you are on a collision course with {1}. At: {2}. Divert course!",
                         air1.Tag, air2.Tag, air1.TimeStamp);
-
+                    
                     string textInFile = File.ReadAllText(@"SeparationEventLogFile.txt");
 
                     if (!textInFile.Contains(air1.Tag))
