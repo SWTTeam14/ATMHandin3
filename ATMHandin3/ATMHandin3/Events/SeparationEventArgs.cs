@@ -14,8 +14,7 @@ namespace ATMHandin3.Events
             a1 = aircraft1;
             a2 = aircraft2;
         }
-        //public List<Aircraft> aircrafts { get; }
-
+        
         public Aircraft a1 { get; set; }
         public Aircraft a2 { get; set; }
     }

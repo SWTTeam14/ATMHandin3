@@ -52,7 +52,7 @@ namespace ATMHandin3.Classes
                         if (_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
                         {
                             _collidingAircrafts.RemoveAll(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag);
-                            SeparationAvoidedEvent(this, new SeparationAvoidedEventArgs(ac1, ac2));
+                            //SeparationAvoidedEvent(this, new SeparationAvoidedEventArgs(ac1, ac2));
                         }
                     }
                 }

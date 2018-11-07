@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using ATMHandin3.Events;
 using ATMHandin3.Interfaces;
-using System.Timers;
+
 namespace ATMHandin3.Classes
 {
-    public class consoleOutput
+    public class ConsoleOutput
     {
         private static Mutex mut = new Mutex();
         private static Mutex mut1 = new Mutex();
@@ -21,34 +18,25 @@ namespace ATMHandin3.Classes
         private int countthreads = 0;
         private List<Aircraft> aircraftsJustEnteredAirspace;
         private List<Aircraft> aircraftsJustExistedAirspace;
-
         private List<SeparationEventArgs> aircraftsColliding;
 
-        public consoleOutput(IAMSController cont, ITimer timer, ICollisionAvoidanceSystem collision)
+        public ConsoleOutput(IAMSController cont, ITimer timer, ICollisionAvoidanceSystem collision)
         {
             _timer = timer;
             _collisionAvoidanceSystem = collision;
-
             aircraftsColliding = new List<SeparationEventArgs>();
-
             aircraftsJustEnteredAirspace = new List<Aircraft>();
             aircraftsJustExistedAirspace = new List<Aircraft>();
-
             _amscontroller = cont;
             _amscontroller.TrackEnteredAirspaceEvent += trackEnteredAirspaceEventHandler;
             _amscontroller.TrackLeftAirspaceEvent += trackLeftAirspaceEventHandler;
             _amscontroller.FilteredAircraftsEvent += aircraftsInsideAirspaceEventHandler;
-
             _collisionAvoidanceSystem.SeparationEvent += collisionEventHandler;
-
         }
-
-
 
         public void collisionEventHandler(object sender, SeparationEventArgs e)
         {
             mut2.WaitOne();
-            
             aircraftsColliding.Add(e);
             mut2.ReleaseMutex();
         }
@@ -57,28 +45,21 @@ namespace ATMHandin3.Classes
 
             Thread t1 = new Thread(new ThreadStart(() =>
             {
-               
                 aircraftsJustEnteredAirspace.Add(e.aircraft);
                 Thread.Sleep(5000);
-                aircraftsJustEnteredAirspace.RemoveAll(aircraft => e.aircraft == e.aircraft);
-                
+                aircraftsJustEnteredAirspace.RemoveAll(aircraft => e.aircraft == e.aircraft);  
             }));
 
             t1.Start();
-            
         }
-
 
         public void trackLeftAirspaceEventHandler(object sender, TrackLeftAirspaceEventArgs e)
         {
             Thread t1 = new Thread(new ThreadStart(() =>
             {
-
                 aircraftsJustExistedAirspace.Add(e.aircraft);
                 Thread.Sleep(5000);
                 aircraftsJustExistedAirspace.RemoveAll(aircraft => e.aircraft == e.aircraft);
-
-
             }));
 
             t1.Start();
@@ -121,7 +102,6 @@ namespace ATMHandin3.Classes
                 mut1.ReleaseMutex();
             }
 
-
             if (aircraftsColliding.Count > 0)
             {
                 mut2.WaitOne();
@@ -137,8 +117,6 @@ namespace ATMHandin3.Classes
                             dateTimeString, aircraft.a2.Tag);
 
                         Console.WriteLine(str);
-                        
-
                     }
                 }
                 finally
@@ -146,15 +124,10 @@ namespace ATMHandin3.Classes
                     mut2.ReleaseMutex();
                 }
                 aircraftsColliding.Clear();
-
-
             }
             int count = e.filteredAircraft.Count;
             Console.WriteLine("Number of airplanes inside airspace : " + count);
             Console.WriteLine("Number of airplanes colliding: " + aircraftsColliding.Count);
         }
-
-
-
     }
 }

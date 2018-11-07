@@ -7,7 +7,7 @@ using ATMHandin3.Classes;
 
 namespace ATMHandin3.Events
 {
-    public class SeparationAvoidedEventArgs
+    public class SeparationAvoidedEventArgs : EventArgs
     {
         public SeparationAvoidedEventArgs(Aircraft aircraft1, Aircraft aircraft2)
         {

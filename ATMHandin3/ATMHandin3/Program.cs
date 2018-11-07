@@ -30,7 +30,7 @@ namespace ATMHandin3
             FileLogger fl = new FileLogger(cas);
 
             Timer timer = new Timer();
-            consoleOutput c = new consoleOutput(ams, timer,cas);
+            ConsoleOutput c = new ConsoleOutput(ams, timer,cas);
 
             while (true)
             {

@@ -32,11 +32,8 @@ namespace ATMHandin3.Classes
         {
             foreach (var aircraft in e.Aircrafts)
             {
-
                 if (IsAircraftInside(aircraft, _airspace))
                 {
-                    
-
                     if (filteredAircrafts.ContainsKey(aircraft.Tag))
                     {
                         Calculate.Update(filteredAircrafts[aircraft.Tag], aircraft);
@@ -47,11 +44,8 @@ namespace ATMHandin3.Classes
                         eventcounter++;
                         Console.WriteLine("EVENT COUNTER: " + eventcounter);
                         TrackEnteredAirspaceEvent(this, new TrackEnteredAirspaceEventArgs(aircraft));
-
                     }
                     filteredAircrafts[aircraft.Tag] = aircraft;
-
-                    
                 }
                 else
                 {
@@ -64,7 +58,7 @@ namespace ATMHandin3.Classes
                 }
             }
             FilteredAircraftsEvent(this, new AircraftsFilteredEventArgs(filteredAircrafts));
-            
+
             //onFilteredAircraftsEvent(new AircraftsFilteredEventArgs(filteredAircrafts));
         }
 
