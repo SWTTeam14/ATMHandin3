@@ -23,9 +23,11 @@ namespace ATMHandin3.Classes
         {
             _eventReceiver = eventReceiver;
 
-            aircraftsToSeparate = new List<Aircraft>();
+            //aircraftsToSeparate = new List<Aircraft>();
 
             eventReceiver.FilteredAircraftsEvent += ReceiverFilteredDataReady;
+
+            aircraftsToSeparate = new List<Aircraft>();
 
             _longitudeTolerance = longitudeTolerance;
             _altitudeTolerance = altitudeTolerance;
@@ -47,7 +49,7 @@ namespace ATMHandin3.Classes
                 {
                     var ac1 = aircrafts.Values.ElementAt(i);
                     var ac2 = aircrafts.Values.ElementAt(j);
-
+                    
                     int diffAltitude = calculateAltitudeDiff(ac1.Altitude, ac2.Altitude);
 
                     double diffLongitude = distanceTo(
@@ -58,19 +60,24 @@ namespace ATMHandin3.Classes
 
                     if (diffAltitude <= _altitudeTolerance && diffLongitude <= _longitudeTolerance)
                     {
-                        FileStream fs = new FileStream(@"WriteLines.txt", FileMode.OpenOrCreate, FileAccess.Write);
-                        StreamWriter sw = new StreamWriter(fs);
-                        TextWriter tw = Console.Out;
-
-                        Console.SetOut(sw);
-                        Console.WriteLine("WARNING!!!! {0}, you are on a collision course with {1}. At: {2}. Divert course!",
-                            ac1.Tag, ac2.Tag, ac1.TimeStamp);
-                        Console.SetOut(tw);
-
-                        sw.Close();
-                        fs.Close();
+                        //FileStream fs = new FileStream(@"WriteLines.txt", FileMode.OpenOrCreate, FileAccess.Write);
+                        //StreamWriter sw = new StreamWriter(fs);
+                        //TextWriter tw = Console.Out;
+                        //
+                        //Console.SetOut(sw);
+                        //Console.WriteLine("WARNING!!!! {0}, you are on a collision course with {1}. At: {2}. Divert course!",
+                        //    ac1.Tag, ac2.Tag, ac1.TimeStamp);
+                        //Console.SetOut(tw);
+                        //
+                        //sw.Close();
+                        //fs.Close();
 
                         newWarningsList.Add(string.Format("WARNING!!!! {0}, you are on a collision course with {1}. At: {2}. Divert course!", ac1.Tag, ac2.Tag, ac1.TimeStamp));
+
+                        aircraftsToSeparate.Add(ac1);
+                        aircraftsToSeparate.Add(ac2);
+
+                        
                     }
                 }
             }
@@ -83,6 +90,8 @@ namespace ATMHandin3.Classes
             {
                 warnings = newWarningsList;
             }
+
+            onSeparationEvent(new SeparationEventArgs(aircraftsToSeparate));
         }
 
         private double distanceTo(double x1coor, double x2coor, double y1coor, double y2coor)
@@ -113,6 +122,11 @@ namespace ATMHandin3.Classes
             {
                 Console.WriteLine(war);
             }
+        }
+
+        public void onSeparationEvent(SeparationEventArgs e)
+        {
+            SeparationEvent?.Invoke(this, e);
         }
     }
 }
