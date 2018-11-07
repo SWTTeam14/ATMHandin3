@@ -94,10 +94,7 @@ namespace ATMHandin3.Classes
                         SeparationEvent(this, new SeparationEventArgs(ac1, ac2));
                         //onSeparationEvent(new SeparationEventArgs(ac1, ac2));
                     }
-                    else
-                    {
-                        noMoreSeperationEvent(this, new noMoreSeperationEventArgs(ac1, ac2));
-                    }
+              
                 }
             }
 

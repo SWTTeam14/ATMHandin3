@@ -23,12 +23,12 @@ namespace ATMHandin3.Classes
 
         public void ReceiverWarningRaised(object sender, SeparationEventArgs e)
         {
-            for (int i = 0; i < e.aircrafts.Count; i++)
+            for (int i = 0; i < 2; i++)
             {
-                for (int j = i+1; j < e.aircrafts.Count; j++)
+                for (int j = i+1; j < 2; j++)
                 {
-                    var air1 = e.aircrafts[i];
-                    var air2 = e.aircrafts[j];
+                    var air1 = e.a1;
+                    var air2 = e.a2;
 
                     //FileStream fs = new FileStream(@"SeparationEventLog.txt", FileMode.OpenOrCreate, FileAccess.Write);
                     //StreamWriter sw = new StreamWriter(fs);
