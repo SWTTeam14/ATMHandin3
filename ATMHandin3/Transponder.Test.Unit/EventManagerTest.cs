@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using ATMHandin3.Classes;
 using ATMHandin3.EventManager;
 using NUnit.Framework;
@@ -22,7 +23,10 @@ namespace Transponder.Test.Unit
             Assert.AreEqual(_uut.EventList.Count, 0);
             TrackEnteredAirspaceEvent tEvent = new TrackEnteredAirspaceEvent(air);
             _uut.AddEvent(tEvent);
+            Thread.Sleep(500);
             Assert.AreEqual(_uut.EventList.Count, 1);
+            Thread.Sleep(5000);
+            Assert.AreEqual(_uut.EventList.Count, 0);
 
         }
     }
