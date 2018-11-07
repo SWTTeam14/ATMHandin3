@@ -10,6 +10,11 @@ namespace ATMHandin3.EventManager
     {
         public List<IEvent> EventList { get; }
 
+        public EventManager()
+        {
+            EventList = new List<IEvent>();
+        }
+        
         public void AddEvent(IEvent e)
         {
             EventList.Add(e);
