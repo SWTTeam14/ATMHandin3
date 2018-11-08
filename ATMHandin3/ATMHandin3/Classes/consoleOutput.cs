@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading;
 using ATMHandin3.Events;
 using ATMHandin3.Interfaces;
@@ -15,7 +16,7 @@ namespace ATMHandin3.Classes
         private IAMSController _amscontroller;
         private ICollisionAvoidanceSystem _collisionAvoidanceSystem;
         private ITimer _timer;
-        private int countthreads = 0;
+        
         private List<Aircraft> aircraftsJustEnteredAirspace;
         private List<Aircraft> aircraftsJustExistedAirspace;
         private List<SeparationEventArgs> aircraftsColliding;
@@ -29,12 +30,12 @@ namespace ATMHandin3.Classes
             aircraftsJustExistedAirspace = new List<Aircraft>();
             _amscontroller = cont;
             _amscontroller.TrackEnteredAirspaceEvent += trackEnteredAirspaceEventHandler;
-            _amscontroller.TrackLeftAirspaceEvent += trackLeftAirspaceEventHandler;
-            _amscontroller.FilteredAircraftsEvent += aircraftsInsideAirspaceEventHandler;
-            _collisionAvoidanceSystem.SeparationEvent += collisionEventHandler;
+            _amscontroller.TrackLeftAirspaceEvent += TrackLeftAirspaceEventHandler;
+            _amscontroller.FilteredAircraftsEvent += AircraftsInsideAirspaceEventHandler;
+            _collisionAvoidanceSystem.SeparationEvent += CollisionEventHandler;
         }
 
-        public void collisionEventHandler(object sender, SeparationEventArgs e)
+        public void CollisionEventHandler(object sender, SeparationEventArgs e)
         {
             mut2.WaitOne();
             aircraftsColliding.Add(e);
@@ -42,6 +43,7 @@ namespace ATMHandin3.Classes
         }
         public void trackEnteredAirspaceEventHandler(object sender, TrackEnteredAirspaceEventArgs e)
         {
+            
 
             Thread t1 = new Thread(new ThreadStart(() =>
             {
@@ -53,7 +55,7 @@ namespace ATMHandin3.Classes
             t1.Start();
         }
 
-        public void trackLeftAirspaceEventHandler(object sender, TrackLeftAirspaceEventArgs e)
+        public void TrackLeftAirspaceEventHandler(object sender, TrackLeftAirspaceEventArgs e)
         {
             Thread t1 = new Thread(new ThreadStart(() =>
             {
@@ -65,7 +67,7 @@ namespace ATMHandin3.Classes
             t1.Start();
         }
 
-        public void aircraftsInsideAirspaceEventHandler(object sender, AircraftsFilteredEventArgs e)
+        public void AircraftsInsideAirspaceEventHandler(object sender, AircraftsFilteredEventArgs e)
         {
             Console.Clear();
             foreach (var aircraft in e.filteredAircraft)
@@ -76,37 +78,38 @@ namespace ATMHandin3.Classes
                 Console.WriteLine(str);
             }
 
+            Console.WriteLine("");
             if (aircraftsJustEnteredAirspace.Count > 0)
             {
                 mut.WaitOne();
                 foreach (var aircraft in aircraftsJustEnteredAirspace)
                 {
                     string dateTimeString = aircraft.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
-                    string str = string.Format("\nAIRCRAFT ENTERED AIRSPACE EVENT: Aircraft with tag:{0} just entered the airspace at time:{1}", aircraft.Tag,
+                    string str = string.Format("AIRCRAFT ENTERED AIRSPACE EVENT: Aircraft with tag:{0} just entered the airspace at time:{1}", aircraft.Tag,
                         dateTimeString);
                     Console.WriteLine(str);
                 }
                 mut.ReleaseMutex();
             }
-
+            Console.WriteLine("");
             if (aircraftsJustExistedAirspace.Count > 0)
             {
                 mut1.WaitOne();
                 foreach (var aircraft in aircraftsJustExistedAirspace)
                 {
                     string dateTimeString = aircraft.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
-                    string str = string.Format("\nAIRCRAFT EXITED AIRSPACE EVENT: Aircraft with tag:{0} just exited the airspace at time:{1}", aircraft.Tag,
+                    string str = string.Format("AIRCRAFT EXITED AIRSPACE EVENT: Aircraft with tag:{0} just exited the airspace at time:{1}", aircraft.Tag,
                         dateTimeString);
                     Console.WriteLine(str);
                 }
                 mut1.ReleaseMutex();
             }
 
+            Console.WriteLine("");
             if (aircraftsColliding.Count > 0)
             {
                 mut2.WaitOne();
-                try
-                {
+                
                     foreach (var aircraft in aircraftsColliding)
                     {
                         string dateTimeString = aircraft.a1.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
@@ -118,16 +121,15 @@ namespace ATMHandin3.Classes
 
                         Console.WriteLine(str);
                     }
-                }
-                finally
-                {
+                
+                
                     mut2.ReleaseMutex();
-                }
+                
                 aircraftsColliding.Clear();
             }
             int count = e.filteredAircraft.Count;
+            Console.WriteLine("");
             Console.WriteLine("Number of airplanes inside airspace : " + count);
-            Console.WriteLine("Number of airplanes colliding: " + aircraftsColliding.Count);
         }
     }
 }

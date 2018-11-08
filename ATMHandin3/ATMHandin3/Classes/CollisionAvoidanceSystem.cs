@@ -38,14 +38,16 @@ namespace ATMHandin3.Classes
                     var ac1 = aircrafts.Values.ElementAt(i);
                     var ac2 = aircrafts.Values.ElementAt(j);
 
+
                     if (IsColliding(ac1, ac2))
                     {
+                        SeparationEvent(this, new SeparationEventArgs(ac1, ac2));
+
                         if (!_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
                         {
                             var tempTuple = new Tuple<Aircraft, Aircraft>(ac1, ac2);
                             _collidingAircrafts.Add(tempTuple);
-                            SeparationEvent(this, new SeparationEventArgs(ac1, ac2));
-                        }
+                                                    }
                     }
                     else
                     {
