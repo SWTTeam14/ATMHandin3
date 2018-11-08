@@ -107,10 +107,10 @@ namespace Transponder.Test.Unit
                 Raise.EventWith(this, new TrackLeftAirspaceEventArgs(a2));
 
             Thread.Sleep(1000);
-            Assert.That(2, Is.EqualTo(_uut.aircraftsJustExistedAirspace.Count));
+            Assert.AreEqual(2, _uut.aircraftsJustExistedAirspace.Count);
 
             Thread.Sleep(4100);
-            Assert.That(0, Is.EqualTo(_uut.aircraftsJustExistedAirspace.Count));
+            Assert.AreEqual(0, _uut.aircraftsJustExistedAirspace.Count);
         }
 
         [Test]
