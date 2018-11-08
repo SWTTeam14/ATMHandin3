@@ -17,7 +17,7 @@ namespace ATMHandin3.Classes
 
         private int eventcounter = 0;
 
-        private IDictionary<string, Aircraft> filteredAircrafts = new Dictionary<string, Aircraft>();
+        public IDictionary<string, Aircraft> filteredAircrafts = new Dictionary<string, Aircraft>();
 
         private IDecoder _decoder;
         private IAirspace _airspace;

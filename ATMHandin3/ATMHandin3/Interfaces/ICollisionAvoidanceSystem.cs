@@ -10,6 +10,5 @@ namespace ATMHandin3.Interfaces
     public interface ICollisionAvoidanceSystem
     {
         event EventHandler<SeparationEventArgs> SeparationEvent;
-        event EventHandler<SeparationAvoidedEventArgs> SeparationAvoidedEvent;
     }
 }

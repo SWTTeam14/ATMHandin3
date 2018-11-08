@@ -18,9 +18,9 @@ namespace ATMHandin3.Classes
        
         private IOutput _output;
         
-        private List<Aircraft> aircraftsJustEnteredAirspace;
-        private List<Aircraft> aircraftsJustExistedAirspace;
-        private List<SeparationEventArgs> aircraftsColliding;
+        public List<Aircraft> aircraftsJustEnteredAirspace;
+        public List<Aircraft> aircraftsJustExistedAirspace;
+        public List<SeparationEventArgs> aircraftsColliding;
 
         public ConsoleOutput(IAMSController amsController, ICollisionAvoidanceSystem collision, IOutput output)
         {
@@ -70,21 +70,21 @@ namespace ATMHandin3.Classes
 
         public void AircraftsInsideAirspaceEventHandler(object sender, AircraftsFilteredEventArgs e)
         {
-            Console.Clear();
+            _output.ClearScreen();
             OutputAircraftsInsideAirspace(e);
-            
+
             _output.OutputWriteline("");
 
             if (aircraftsJustEnteredAirspace.Count > 0)
             {
                 OutputAircraftsWhoJustEnteredAirspace();
             }
-            
+
             if (aircraftsJustExistedAirspace.Count > 0)
             {
                 OutputAircraftsWhoJustExitedAirspace();
             }
-            
+
             if (aircraftsColliding.Count > 0)
             {
                 OutputAircraftsColliding();
@@ -93,7 +93,7 @@ namespace ATMHandin3.Classes
             int count = e.filteredAircraft.Count;
 
             _output.OutputWriteline("Number of airplanes inside airspace : " + count);
-            
+
         }
 
         public void OutputAircraftsInsideAirspace(AircraftsFilteredEventArgs e)

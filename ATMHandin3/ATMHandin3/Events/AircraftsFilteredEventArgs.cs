@@ -7,7 +7,7 @@ using ATMHandin3.Classes;
 
 namespace ATMHandin3.Events
 {
-    public class AircraftsFilteredEventArgs
+    public class AircraftsFilteredEventArgs : EventArgs
     {
         public AircraftsFilteredEventArgs(IDictionary<string, Aircraft> aircrafts)
         {
