@@ -13,5 +13,10 @@ namespace ATMHandin3.Classes
         {
             Console.WriteLine(line);
         }
+
+        public void ClearScreen()
+        {
+            Console.Clear();
+        }
     }
 }

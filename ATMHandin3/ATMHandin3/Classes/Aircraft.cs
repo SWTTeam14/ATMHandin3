@@ -18,7 +18,7 @@ namespace ATMHandin3.Classes
         public int YCoordinate { get; set; }
         public int Altitude { get; set; }
         public DateTime TimeStamp { get; set; }
-        public int CompassCourse { get; set; }
-        public int HorizontalVelocity { get; set; }
+        public double CompassCourse { get; set; }
+        public double HorizontalVelocity { get; set; }
     }
 }

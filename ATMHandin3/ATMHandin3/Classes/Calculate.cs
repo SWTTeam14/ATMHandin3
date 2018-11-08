@@ -60,8 +60,8 @@ namespace ATMHandin3.Classes
         public static void Update(Aircraft a1, Aircraft a2)
         {
             //Calculating -> be aware that a2 would be modified
-            a2.HorizontalVelocity = (int)CalculateVelocity(a1.XCoordinate, a2.XCoordinate, a1.YCoordinate, a2.YCoordinate, a1.TimeStamp, a2.TimeStamp);
-            a2.CompassCourse = (int)CalculateAngle(a1.XCoordinate, a2.XCoordinate, a1.YCoordinate, a2.YCoordinate);
+            a2.HorizontalVelocity = CalculateVelocity(a1.XCoordinate, a2.XCoordinate, a1.YCoordinate, a2.YCoordinate, a1.TimeStamp, a2.TimeStamp);
+            a2.CompassCourse = CalculateAngle(a1.XCoordinate, a2.XCoordinate, a1.YCoordinate, a2.YCoordinate);
         }
     }
 }
