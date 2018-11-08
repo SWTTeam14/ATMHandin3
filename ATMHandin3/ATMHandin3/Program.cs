@@ -1,10 +1,7 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using ATMHandin3.Classes;
 using TransponderReceiver;
 using Decoder = ATMHandin3.Classes.Decoder;
-using ATMHandin3.Interfaces;
-using Timer = ATMHandin3.Classes.Timer;
 
 namespace ATMHandin3
 {
@@ -29,15 +26,11 @@ namespace ATMHandin3
             CollisionAvoidanceSystem cas = new CollisionAvoidanceSystem(ams,5000,5000);
             FileLogger fl = new FileLogger(cas);
 
-            Timer timer = new Timer();
-            ConsoleOutput c = new ConsoleOutput(ams, timer,cas);
+            ConsoleOutput c = new ConsoleOutput(ams,cas);
 
             while (true)
             {
                 Thread.Sleep(1000);
-                
-                //ams.Print();
-                //cas.PrintAllWarnings();
             }
         }
     }
