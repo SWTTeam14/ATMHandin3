@@ -17,8 +17,6 @@ namespace ATMHandin3.Classes
         public void ReceiverWarningRaised(object sender, SeparationEventArgs e)
         {
             CheckIfFileExists();
-
-            //var fileToCheck = ("Collision event; {0}; {1}; {2}", e.a1.Tag, e.a2.Tag, e.a1.TimeStamp);
             
             if (!File.ReadAllText(@"SeparationEventLogFile.txt").Contains(e.a1.Tag))
             { 
