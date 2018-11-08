@@ -8,6 +8,6 @@ namespace ATMHandin3.Interfaces
 {
     public interface IOutput
     {
-        void OutputWriteline(string output);
+        void OutputWriteline(string line);
     }
 }
