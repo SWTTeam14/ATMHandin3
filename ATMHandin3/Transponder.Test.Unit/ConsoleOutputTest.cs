@@ -97,7 +97,7 @@ namespace Transponder.Test.Unit
             amsController.TrackEnteredAirspaceEvent +=
                 Raise.EventWith(this, new TrackEnteredAirspaceEventArgs(a2));
 
-            Thread.Sleep(10);
+            Thread.Sleep(1000);
             Assert.That(2, Is.EqualTo(_uut.aircraftsJustEnteredAirspace.Count));
 
             Thread.Sleep(4000);
