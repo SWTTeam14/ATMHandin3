@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using ATMHandin3.Events;
@@ -11,7 +10,6 @@ namespace ATMHandin3.Classes
     {
         public event EventHandler<SeparationEventArgs> SeparationEvent;
         public event EventHandler<SeparationEventArgs> SeparationAvoidedEvent;
-
         private IAMSController _eventReceiver;
         private double _longitudeTolerance;
         private double _altitudeTolerance;
@@ -38,8 +36,6 @@ namespace ATMHandin3.Classes
                 {
                     var ac1 = aircrafts.Values.ElementAt(i);
                     var ac2 = aircrafts.Values.ElementAt(j);
-
-
                     if (IsColliding(ac1, ac2))
                     {
                         if (!_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))

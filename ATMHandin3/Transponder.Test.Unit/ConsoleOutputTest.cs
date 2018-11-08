@@ -29,18 +29,8 @@ namespace Transponder.Test.Unit
             _uut = new ConsoleOutput(amsController, collisionAvoidanceSystem, output);
         }
 
-
         [Test]
-        public void seperationEvent_Correct_output()
-        {
-            _uut.OutputAircraftsWhoJustEnteredAirspace();
-
-            output.Received().OutputWriteline(Arg.Is<string>(str=>str.Contains("")));
-        }
-
-
-        [Test]
-        public void seperationEvent_Correct_output_with_tags()
+        public void SeparationEvent_Correct_output_with_tags()
         {
             Aircraft a1 = new Aircraft("ttt", 9000, 9000, 5000, new DateTime(1994, 09, 3));
             Aircraft a2 = new Aircraft("yyy", 9000, 9000, 5000, new DateTime(1994, 09, 3));
@@ -52,7 +42,7 @@ namespace Transponder.Test.Unit
         }
 
         [Test]
-        public void seperationEvent_correct_number_of_airplanes_in_colliding_list()
+        public void SeparationEvent_correct_number_of_airplanes_in_colliding_list()
         {
             Aircraft a1 = new Aircraft("ttt", 9000, 9000, 5000, new DateTime(1994, 09, 3));
             Aircraft a2 = new Aircraft("yyy", 9000, 9000, 5000, new DateTime(1994, 09, 3));
@@ -69,7 +59,6 @@ namespace Transponder.Test.Unit
             Aircraft a1 = new Aircraft("ttt", 9000, 9000, 5000, new DateTime(1994, 09, 3));
             Aircraft a2 = new Aircraft("yyy", 9000, 9000, 5000, new DateTime(1994, 09, 3));
 
-
             amsController.TrackEnteredAirspaceEvent +=
                 Raise.EventWith(this, new TrackEnteredAirspaceEventArgs(a1));
 
@@ -79,9 +68,8 @@ namespace Transponder.Test.Unit
             Thread.Sleep(10);
             Assert.That(2, Is.EqualTo(_uut.aircraftsJustEnteredAirspace.Count));
 
-            Thread.Sleep(5000);
-            Assert.That(0, Is.EqualTo(_uut.aircraftsJustEnteredAirspace.Count));
-          
+            Thread.Sleep(7000);
+            Assert.AreEqual(0, _uut.aircraftsJustEnteredAirspace.Count);
         }
 
         [Test]
@@ -100,7 +88,7 @@ namespace Transponder.Test.Unit
             Thread.Sleep(1000);
             Assert.That(2, Is.EqualTo(_uut.aircraftsJustEnteredAirspace.Count));
 
-            Thread.Sleep(4000);
+            Thread.Sleep(3000);
             Assert.That(2, Is.EqualTo(_uut.aircraftsJustEnteredAirspace.Count));
 
         }
@@ -121,7 +109,7 @@ namespace Transponder.Test.Unit
             Thread.Sleep(1000);
             Assert.That(2, Is.EqualTo(_uut.aircraftsJustExistedAirspace.Count));
 
-            Thread.Sleep(5000);
+            Thread.Sleep(4100);
             Assert.That(0, Is.EqualTo(_uut.aircraftsJustExistedAirspace.Count));
         }
 
@@ -149,14 +137,10 @@ namespace Transponder.Test.Unit
         public void Aircraft_exited_airspace_correct_tag_output()
         {
             Aircraft a1 = new Aircraft("ttt", 9000, 9000, 5000, new DateTime(1994, 09, 3));
-            Aircraft a2 = new Aircraft("yyy", 9000, 9000, 5000, new DateTime(1994, 09, 3));
-
             amsController.TrackLeftAirspaceEvent += Raise.EventWith(this, new TrackLeftAirspaceEventArgs(a1));
 
             // This sleep is added because the eventhandler needs time to be called after the event is raised.
             Thread.Sleep(1000);
-
-           // Assert.That(1, Is.EqualTo(_uut.aircraftsJustExistedAirspace.Count));
 
             _uut.OutputAircraftsWhoJustExitedAirspace();
            
@@ -190,8 +174,6 @@ namespace Transponder.Test.Unit
             aircrafts.Add("ttt", a1);
             aircrafts.Add("yyy", a2);
 
-            //var _aircrafts = new AircraftsFilteredEventArgs(aircrafts);
-
             amsController.FilteredAircraftsEvent += Raise.EventWith(amsController, new AircraftsFilteredEventArgs(aircrafts));
 
             output.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("9000")));
@@ -199,16 +181,5 @@ namespace Transponder.Test.Unit
             output.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("yyy")));
             output.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("5000")));
         }
-
-
-
-        //[Test]
-        //public void seperationEvent_no_out_because_no_event_raised()
-        //{
-        //    _uut.OutputAircraftsColliding();
-        //    output.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("COLLIDING")));
-        //}
-
-
     }
 }
