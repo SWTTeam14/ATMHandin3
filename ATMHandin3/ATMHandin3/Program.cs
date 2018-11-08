@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using ATMHandin3.Classes;
 using TransponderReceiver;
 using Decoder = ATMHandin3.Classes.Decoder;
@@ -11,7 +12,7 @@ namespace ATMHandin3
         {
 
             ITransponderReceiver receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
-
+            
             Decoder d1 = new Decoder(receiver);
             AMSController ams = new AMSController(d1, new Airspace(
             
@@ -22,7 +23,7 @@ namespace ATMHandin3
                 LowerAltitude: 500,
                 UpperAltitude: 20000
             ));
-
+            
             CollisionAvoidanceSystem cas = new CollisionAvoidanceSystem(ams,5000,300);
             FileLogger fl = new FileLogger(cas);
             Output output = new Output();

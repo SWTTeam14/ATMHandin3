@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ATMHandin3.Interfaces;
 using ATMHandin3.Classes;
+using ATMHandin3.Events;
 using NUnit.Framework;
 using NSubstitute;
 using TransponderReceiver;
@@ -52,9 +53,8 @@ namespace Transponder.Test.Unit
             string testData = "ATR423;39045;12932;14000;20151006213456789";
             DateTime dateTime = DateTime.ParseExact("20151006213456789", "yyyyMMddHHmmssfff", System.Globalization.CultureInfo.InvariantCulture);
             Aircraft aircraft = new Aircraft("ATR423", 39045, 12932, 14000, dateTime);
-
-            //Assert.That(_uut.ConvertData(testData), Is.EqualTo(aircraft));
-            Assert.AreEqual(_uut.ConvertData(testData), aircraft);
+            
+            Assert.That(_uut.ConvertData(testData).ToString(), Is.EqualTo(aircraft.ToString()));
         }
     }
 }

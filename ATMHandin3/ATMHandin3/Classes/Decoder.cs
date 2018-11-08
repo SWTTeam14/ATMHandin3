@@ -32,12 +32,7 @@ namespace ATMHandin3.Classes
             {
                 aircrafts.Add(ConvertData(data));   
             }
-            DataDecodedEvent(this, new DataDecodedEventArgs(aircrafts));
-        }
-
-        public void OnDataDecodedEvent(DataDecodedEventArgs e)
-        {
-            DataDecodedEvent?.Invoke(this, e);
+            DataDecodedEvent?.Invoke(this, new DataDecodedEventArgs(aircrafts));
         }
         
         public Aircraft ConvertData(string data)
