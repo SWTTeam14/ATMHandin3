@@ -61,7 +61,7 @@ namespace ATMHandin3.Classes
             }
         }
 
-        private bool IsColliding(Aircraft ac1, Aircraft ac2)
+        public bool IsColliding(Aircraft ac1, Aircraft ac2)
         {
             double diffAltitude = Calculate.CalculateAltitudeDiff(ac1.Altitude, ac2.Altitude);
             double diffLongitude = Calculate.DistanceTo(ac1.XCoordinate, ac2.XCoordinate, ac1.YCoordinate, ac2.YCoordinate);
