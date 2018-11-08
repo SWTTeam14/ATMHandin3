@@ -30,6 +30,8 @@ namespace Transponder.Test.Unit
         {
             _fakeDecoder = Substitute.For<IDecoder>();
             _fakeAirspace = Substitute.For<IAirspace>();
+            
+            
 
             _uut = new AMSController(_fakeDecoder, _fakeAirspace);
 
@@ -49,14 +51,26 @@ namespace Transponder.Test.Unit
             DateTime dateTime2 = DateTime.ParseExact("20151006213558789", "yyyyMMddHHmmssfff", System.Globalization.CultureInfo.InvariantCulture);
             Aircraft aircraft2 = new Aircraft("BTR700", 19100, 23000, 1000, dateTime2);
 
-            Airspace airspace1 = new Airspace(0,0,30000,30000,500,12000);
-
+            _fakeAirspace.South = 0;
+            _fakeAirspace.West = 0;
+            _fakeAirspace.North = 30000;
+            _fakeAirspace.East = 30000;
+            _fakeAirspace.LowerAltitude = 500;
+            _fakeAirspace.UpperAltitude = 15000;
+            
             testData.Add(aircraft1);
             testData.Add(aircraft2);
             
             _fakeDecoder.DataDecodedEvent += Raise.EventWith(_fakeDecoder, new DataDecodedEventArgs(testData));
             
             Assert.AreEqual(_nFilteredAircraftEvent, 1);
+            Assert.AreEqual(_nTrackEnteredAirspaceEvent, 1);
+
+            _uut.filteredAircrafts["BTR700"].XCoordinate = 35000;
+
+            _fakeDecoder.DataDecodedEvent += Raise.EventWith(_fakeDecoder, new DataDecodedEventArgs(testData));
+
+            Assert.AreEqual(_nTrackLeftAirspaceEvent, 1);
         }
 
         
