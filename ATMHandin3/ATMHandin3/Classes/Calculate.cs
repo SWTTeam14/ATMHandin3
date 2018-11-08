@@ -35,7 +35,7 @@ namespace ATMHandin3.Classes
             return angle;
         }
 
-        private double distanceTo(double x1coor, double x2coor, double y1coor, double y2coor)
+        public static double DistanceTo(double x1coor, double x2coor, double y1coor, double y2coor)
         {
             double xdiif = x1coor - x2coor;
             double ydiif = y1coor - y2coor;
@@ -44,7 +44,7 @@ namespace ATMHandin3.Classes
             return longtitude;
         }
 
-        private int calculateAltitudeDiff(int alti1, int alti2)
+        public static int CalculateAltitudeDiff(int alti1, int alti2)
         {
             int diffAlti;
 
