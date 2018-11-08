@@ -54,6 +54,7 @@
     <Compile Include="Classes\ConsoleOutput.cs" />
     <Compile Include="Classes\Decoder.cs" />
     <Compile Include="Classes\FileLogger.cs" />
+    <Compile Include="Classes\Output.cs" />
     <Compile Include="Classes\Timer.cs" />
     <Compile Include="EventManager\EventManager.cs" />
     <Compile Include="EventManager\IEvent.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Interfaces\IDecoder.cs" />
     <Compile Include="Interfaces\IAirspace.cs" />
     <Compile Include="Interfaces\IFileLogger.cs" />
+    <Compile Include="Interfaces\IOutput.cs" />
     <Compile Include="Interfaces\ITimer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

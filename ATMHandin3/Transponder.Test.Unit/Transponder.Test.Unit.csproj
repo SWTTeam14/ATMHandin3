@@ -68,6 +68,7 @@
     <Compile Include="AMSControllerTest.cs" />
     <Compile Include="CalculateTest.cs" />
     <Compile Include="CollisionAvoidanceSystemTest.cs" />
+    <Compile Include="ConsoleOutputTest.cs" />
     <Compile Include="DecoderTest.cs" />
     <Compile Include="EventManagerTest.cs" />
     <Compile Include="FileLoggerTest.cs" />
