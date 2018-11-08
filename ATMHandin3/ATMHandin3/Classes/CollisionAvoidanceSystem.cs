@@ -41,22 +41,21 @@ namespace ATMHandin3.Classes
 
                     if (IsColliding(ac1, ac2))
                     {
-                        SeparationEvent?.Invoke(this, new SeparationEventArgs(ac1, ac2));
-
-                        //if (!_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
-                        //{
-                        //    var tempTuple = new Tuple<Aircraft, Aircraft>(ac1, ac2);
-                        //    _collidingAircrafts.Add(tempTuple);
-                        //}
+                        if (!_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
+                        {
+                            var tempTuple = new Tuple<Aircraft, Aircraft>(ac1, ac2);
+                            _collidingAircrafts.Add(tempTuple);
+                            SeparationEvent?.Invoke(this, new SeparationEventArgs(ac1, ac2));
+                        }
                     }
-                    //else
-                    //{
-                    //    if (_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
-                    //    {
-                    //        _collidingAircrafts.RemoveAll(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag);
-                    //        //SeparationAvoidedEvent(this, new SeparationAvoidedEventArgs(ac1, ac2));
-                    //    }
-                    //}
+                    else
+                    {
+                        if (_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
+                        {
+                            _collidingAircrafts.RemoveAll(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag);
+                            //SeparationAvoidedEvent(this, new SeparationAvoidedEventArgs(ac1, ac2));
+                        }
+                    }
                 }
             }
         }

@@ -92,7 +92,6 @@ namespace Transponder.Test.Unit
             str = File.ReadAllText("SeparationEventLogFile.txt");
 
             Assert.IsTrue(str.Contains("HCD123"));
-
         }
     }
 }

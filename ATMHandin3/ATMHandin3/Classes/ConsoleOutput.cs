@@ -99,9 +99,8 @@ namespace ATMHandin3.Classes
         {
             foreach (var aircraft in e.filteredAircraft)
             {
-                string dateTimeString = aircraft.Value.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
-                string str = string.Format("Tag:{0}\t X coordinate:{1} meters \t Y coordinate:{2} meters \tAltitude:{3} meters\t Timestamp:{4}\tCompassCourse:{5}\tHorizontalVelocity:{6}",
-                    aircraft.Value.Tag, aircraft.Value.XCoordinate, aircraft.Value.YCoordinate, aircraft.Value.Altitude, dateTimeString, aircraft.Value.CompassCourse.ToString("N2"), aircraft.Value.HorizontalVelocity);
+                string str = string.Format("Tag:{0}\t X coordinate:{1} meters \t Y coordinate:{2} meters \tAltitude:{3} meters\t Timestamp:{4:MMMM dd, yyyy HH:mm:ss fff}\tCompassCourse:{5:N2}\tHorizontalVelocity:{6:N2}",
+                    aircraft.Value.Tag, aircraft.Value.XCoordinate, aircraft.Value.YCoordinate, aircraft.Value.Altitude, aircraft.Value.TimeStamp, aircraft.Value.CompassCourse, aircraft.Value.HorizontalVelocity);
 
                 _output.OutputWriteline(str);
 
