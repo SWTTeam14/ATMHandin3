@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ATMHandin3.Interfaces;
 using ATMHandin3.Classes;
+using ATMHandin3.Events;
 using NUnit.Framework;
 using NSubstitute;
 using TransponderReceiver;
