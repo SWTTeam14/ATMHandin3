@@ -15,12 +15,12 @@ namespace Transponder.Test.Unit
         private DateTime _tmpTime2;
 
         [TestCase(14000, 12000, 57000, 52000)]
-        public void TestCalculateVelocity(int a, int b, int c, int d)
+        public void TestCalculateVelocity(double a, double b, double c, double d)
         {
             _tmpTime1 = new DateTime(2018, 07, 09, 20, 40, 10, 902);
             _tmpTime2 = new DateTime(2018, 07, 09, 20, 40, 20, 902);
 
-            Assert.That(Calculate.CalculateVelocity(a, b, c, d, _tmpTime1, _tmpTime2), Is.EqualTo(538.0));
+            Assert.AreEqual(Calculate.CalculateVelocity(a, b, c, d, _tmpTime1, _tmpTime2), 538.51648071345039);
         }
 
         [TestCase(0, 2, 0, 1, 63.4349488)]
@@ -50,7 +50,7 @@ namespace Transponder.Test.Unit
             Aircraft aircraft2 = new Aircraft("ATR423", 39100, 13000, 15000, dateTime2);
 
             Calculate.Update(aircraft1, aircraft2);
-            Assert.AreEqual(aircraft2.HorizontalVelocity, 1.41062196);
+            Assert.AreEqual(aircraft2.HorizontalVelocity, 1.4106219615539501);
         }
     }
 }
