@@ -27,13 +27,16 @@ namespace ATMHandin3.Classes
             }
         }
 
-        private static void CheckIfFileExists()
+        public bool CheckIfFileExists()
         {
             if (!(File.Exists(@"SeparationEventLogFile.txt")))
             {
                 var separationFile = File.Create(@"SeparationEventLogFile.txt");
                 separationFile.Close();
+                return false;
             }
+
+            return true;
         }
     }
 }
