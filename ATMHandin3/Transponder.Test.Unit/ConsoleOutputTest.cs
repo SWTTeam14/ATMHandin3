@@ -27,7 +27,6 @@ namespace Transponder.Test.Unit
             _uut = new ConsoleOutput(amsController, collisionAvoidanceSystem, output);
         }
 
-        [Test]
-        public void 
+
     }
 }
