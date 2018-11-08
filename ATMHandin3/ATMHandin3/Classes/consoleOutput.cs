@@ -22,9 +22,9 @@ namespace ATMHandin3.Classes
         private List<Aircraft> aircraftsJustExistedAirspace;
         private List<SeparationEventArgs> aircraftsColliding;
 
-        public ConsoleOutput(IAMSController amsController, ICollisionAvoidanceSystem collision)
+        public ConsoleOutput(IAMSController amsController, ICollisionAvoidanceSystem collision, IOutput output)
         {
-            _output = new Output();
+            _output = output;
             
             _collisionAvoidanceSystem = collision;
             aircraftsColliding = new List<SeparationEventArgs>();
@@ -67,76 +67,96 @@ namespace ATMHandin3.Classes
             t1.Start();
         }
 
+
         public void AircraftsInsideAirspaceEventHandler(object sender, AircraftsFilteredEventArgs e)
         {
             Console.Clear();
-            foreach (var aircraft in e.filteredAircraft)
-            {
-                string dateTimeString = aircraft.Value.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
-                string str = string.Format("Tag:{0}\t X coordinate:{1} meters \t Y coordinate:{2} meters \tAltitude:{3} meters\t Timestamp:{4}\tCompassCourse:{5}\tHorizontalVelocity:{6}", 
-                    aircraft.Value.Tag, aircraft.Value.XCoordinate, aircraft.Value.YCoordinate, aircraft.Value.Altitude, dateTimeString, aircraft.Value.CompassCourse, aircraft.Value.HorizontalVelocity);
-                
-                _output.OutputWriteline(str);
-
-            }
+            OutputAircraftsInsideAirspace(e);
+            
             _output.OutputWriteline("");
 
             if (aircraftsJustEnteredAirspace.Count > 0)
             {
-                mut.WaitOne();
-                foreach (var aircraft in aircraftsJustEnteredAirspace)
-                {
-                    string dateTimeString = aircraft.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
-                    string str = string.Format("AIRCRAFT ENTERED AIRSPACE EVENT: Aircraft with tag:{0} just entered the airspace at time:{1}", aircraft.Tag,
-                        dateTimeString);
-                    _output.OutputWriteline(str);
-                    
-                }
-                _output.OutputWriteline("");
-                mut.ReleaseMutex();
+                OutputAircraftsWhoJustEnteredAirspace();
             }
             
             if (aircraftsJustExistedAirspace.Count > 0)
             {
-                mut1.WaitOne();
-                foreach (var aircraft in aircraftsJustExistedAirspace)
-                {
-                    string dateTimeString = aircraft.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
-                    string str = string.Format("AIRCRAFT EXITED AIRSPACE EVENT: Aircraft with tag:{0} just exited the airspace at time:{1}", aircraft.Tag,
-                        dateTimeString);
-                    _output.OutputWriteline(str);
-                    _output.OutputWriteline("");
-                }
-                mut1.ReleaseMutex();
+                OutputAircraftsWhoJustExitedAirspace();
             }
-
             
             if (aircraftsColliding.Count > 0)
             {
-                mut2.WaitOne();
-                
-                    foreach (var aircraft in aircraftsColliding)
-                    {
-                        string dateTimeString = aircraft.a1.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
-
-                        string str = string.Format(
-                            "\nAIRCRAFTS ARE COLLIDING: Aircraft with tag: {0} and {2} are colliding at time: {1}",
-                            aircraft.a1.Tag,
-                            dateTimeString, aircraft.a2.Tag);
-
-                    _output.OutputWriteline(str);
-                    _output.OutputWriteline("");
-                }
-                
-                
-                    mut2.ReleaseMutex();
-                
+                OutputAircraftsColliding();
                 aircraftsColliding.Clear();
             }
             int count = e.filteredAircraft.Count;
 
             _output.OutputWriteline("Number of airplanes inside airspace : " + count);
             
+        }
+
+        public void OutputAircraftsInsideAirspace(AircraftsFilteredEventArgs e)
+        {
+            foreach (var aircraft in e.filteredAircraft)
+            {
+                string dateTimeString = aircraft.Value.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
+                string str = string.Format("Tag:{0}\t X coordinate:{1} meters \t Y coordinate:{2} meters \tAltitude:{3} meters\t Timestamp:{4}\tCompassCourse:{5}\tHorizontalVelocity:{6}",
+                    aircraft.Value.Tag, aircraft.Value.XCoordinate, aircraft.Value.YCoordinate, aircraft.Value.Altitude, dateTimeString, aircraft.Value.CompassCourse, aircraft.Value.HorizontalVelocity);
+
+                _output.OutputWriteline(str);
+
+            }
+        }
+
+        public void OutputAircraftsWhoJustEnteredAirspace()
+        {
+            mut.WaitOne();
+            foreach (var aircraft in aircraftsJustEnteredAirspace)
+            {
+                string dateTimeString = aircraft.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
+                string str = string.Format("AIRCRAFT ENTERED AIRSPACE EVENT: Aircraft with tag:{0} just entered the airspace at time:{1}", aircraft.Tag,
+                    dateTimeString);
+                _output.OutputWriteline(str);
+
+            }
+            _output.OutputWriteline("");
+            mut.ReleaseMutex();
+        }
+
+        public void OutputAircraftsWhoJustExitedAirspace()
+        {
+            mut1.WaitOne();
+            foreach (var aircraft in aircraftsJustExistedAirspace)
+            {
+                string dateTimeString = aircraft.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
+                string str = string.Format("AIRCRAFT EXITED AIRSPACE EVENT: Aircraft with tag:{0} just exited the airspace at time:{1}", aircraft.Tag,
+                    dateTimeString);
+                _output.OutputWriteline(str);
+                _output.OutputWriteline("");
+            }
+            mut1.ReleaseMutex();
+        }
+
+        public void OutputAircraftsColliding()
+        {
+            mut2.WaitOne();
+
+            foreach (var aircraft in aircraftsColliding)
+            {
+                string dateTimeString = aircraft.a1.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
+
+                string str = string.Format(
+                    "\nAIRCRAFTS ARE COLLIDING: Aircraft with tag: {0} and {2} are colliding at time: {1}",
+                    aircraft.a1.Tag,
+                    dateTimeString, aircraft.a2.Tag);
+
+                _output.OutputWriteline(str);
+                _output.OutputWriteline("");
+            }
+
+
+            mut2.ReleaseMutex();
         }
     }
 }
