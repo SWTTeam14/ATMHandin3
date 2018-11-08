@@ -9,7 +9,6 @@ namespace ATMHandin3.Classes
     public class CollisionAvoidanceSystem : ICollisionAvoidanceSystem
     {
         public event EventHandler<SeparationEventArgs> SeparationEvent;
-        public event EventHandler<SeparationAvoidedEventArgs> SeparationAvoidedEvent;
 
         private IAMSController _eventReceiver;
         private double _longitudeTolerance;
