@@ -97,7 +97,7 @@ namespace Transponder.Test.Unit
             amsController.TrackEnteredAirspaceEvent +=
                 Raise.EventWith(this, new TrackEnteredAirspaceEventArgs(a2));
 
-            Thread.Sleep(10);
+            Thread.Sleep(1000);
             Assert.That(2, Is.EqualTo(_uut.aircraftsJustEnteredAirspace.Count));
 
             Thread.Sleep(4000);
@@ -154,7 +154,7 @@ namespace Transponder.Test.Unit
             amsController.TrackLeftAirspaceEvent += Raise.EventWith(this, new TrackLeftAirspaceEventArgs(a1));
 
             // This sleep is added because the eventhandler needs time to be called after the event is raised.
-            Thread.Sleep(1);
+            Thread.Sleep(1000);
 
            // Assert.That(1, Is.EqualTo(_uut.aircraftsJustExistedAirspace.Count));
 

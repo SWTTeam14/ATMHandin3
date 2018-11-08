@@ -43,25 +43,25 @@ namespace ATMHandin3.Classes
                     {
                         SeparationEvent?.Invoke(this, new SeparationEventArgs(ac1, ac2));
 
-                        if (!_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
-                        {
-                            var tempTuple = new Tuple<Aircraft, Aircraft>(ac1, ac2);
-                            _collidingAircrafts.Add(tempTuple);
-                                                    }
+                        //if (!_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
+                        //{
+                        //    var tempTuple = new Tuple<Aircraft, Aircraft>(ac1, ac2);
+                        //    _collidingAircrafts.Add(tempTuple);
+                        //}
                     }
-                    else
-                    {
-                        if (_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
-                        {
-                            _collidingAircrafts.RemoveAll(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag);
-                            //SeparationAvoidedEvent(this, new SeparationAvoidedEventArgs(ac1, ac2));
-                        }
-                    }
+                    //else
+                    //{
+                    //    if (_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
+                    //    {
+                    //        _collidingAircrafts.RemoveAll(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag);
+                    //        //SeparationAvoidedEvent(this, new SeparationAvoidedEventArgs(ac1, ac2));
+                    //    }
+                    //}
                 }
             }
         }
 
-        private bool IsColliding(Aircraft ac1, Aircraft ac2)
+        public bool IsColliding(Aircraft ac1, Aircraft ac2)
         {
             double diffAltitude = Calculate.CalculateAltitudeDiff(ac1.Altitude, ac2.Altitude);
             double diffLongitude = Calculate.DistanceTo(ac1.XCoordinate, ac2.XCoordinate, ac1.YCoordinate, ac2.YCoordinate);

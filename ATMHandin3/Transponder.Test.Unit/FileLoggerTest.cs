@@ -64,7 +64,7 @@ namespace Transponder.Test.Unit
 
             string str = File.ReadAllText("SeparationEventLogFile.txt");
 
-            Assert.That(str, Is.EqualTo("Collision event; ATR423; BCD123; 06-Oct-15 9:34:56 PM\r\n"));
+            Assert.That(str, Is.EqualTo("Collision event; ATR423; BCD123; 06-10-2015 21:34:56\r\n"));
 
 
         }

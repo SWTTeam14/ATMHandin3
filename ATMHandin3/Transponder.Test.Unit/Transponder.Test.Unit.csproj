@@ -70,7 +70,6 @@
     <Compile Include="CollisionAvoidanceSystemTest.cs" />
     <Compile Include="ConsoleOutputTest.cs" />
     <Compile Include="DecoderTest.cs" />
-    <Compile Include="EventManagerTest.cs" />
     <Compile Include="FileLoggerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
