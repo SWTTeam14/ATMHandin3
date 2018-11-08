@@ -16,8 +16,7 @@ namespace Transponder.Test.Unit
     {
         private IDecoder _fakeDecoder;
         private IAirspace _fakeAirspace;
-
-        private IAMSController _fakeAmsController;
+        
         private AMSController _uut;
 
         private int _nFilteredAircraftEvent = 0;
