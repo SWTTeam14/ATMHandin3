@@ -43,7 +43,7 @@ namespace ATMHandin3.Classes
                     {
                         eventcounter++;
                         Console.WriteLine("EVENT COUNTER: " + eventcounter);
-                        TrackEnteredAirspaceEvent(this, new TrackEnteredAirspaceEventArgs(aircraft));
+                        TrackEnteredAirspaceEvent?.Invoke(this, new TrackEnteredAirspaceEventArgs(aircraft));
                     }
                     filteredAircrafts[aircraft.Tag] = aircraft;
                 }
@@ -53,13 +53,12 @@ namespace ATMHandin3.Classes
                     {
                         filteredAircrafts.Remove(aircraft.Tag);
 
-                        TrackLeftAirspaceEvent(this, new TrackLeftAirspaceEventArgs(aircraft));
+                        TrackLeftAirspaceEvent?.Invoke(this, new TrackLeftAirspaceEventArgs(aircraft));
                     }
                 }
             }
             FilteredAircraftsEvent?.Invoke(this, new AircraftsFilteredEventArgs(filteredAircrafts));
-
-            //onFilteredAircraftsEvent(new AircraftsFilteredEventArgs(filteredAircrafts));
+            
         }
 
         public bool IsAircraftInside(Aircraft aircraft, IAirspace airspace)

@@ -49,14 +49,14 @@ namespace Transponder.Test.Unit
             DateTime dateTime2 = DateTime.ParseExact("20151006213558789", "yyyyMMddHHmmssfff", System.Globalization.CultureInfo.InvariantCulture);
             Aircraft aircraft2 = new Aircraft("BTR700", 19100, 23000, 1000, dateTime2);
 
+            Airspace airspace1 = new Airspace(0,0,30000,30000,500,12000);
+
             testData.Add(aircraft1);
             testData.Add(aircraft2);
             
             _fakeDecoder.DataDecodedEvent += Raise.EventWith(_fakeDecoder, new DataDecodedEventArgs(testData));
-
+            
             Assert.AreEqual(_nFilteredAircraftEvent, 1);
-            
-            
         }
 
         
