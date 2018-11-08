@@ -24,7 +24,6 @@ namespace ATMHandin3.Classes
         public ConsoleOutput(IAMSController amsController, ICollisionAvoidanceSystem collision, IOutput output)
         {
             _output = output;
-            
             _collisionAvoidanceSystem = collision;
             aircraftsColliding = new List<SeparationEventArgs>();
             aircraftsJustEnteredAirspace = new List<Aircraft>();
@@ -34,14 +33,23 @@ namespace ATMHandin3.Classes
             _amscontroller.TrackLeftAirspaceEvent += TrackLeftAirspaceEventHandler;
             _amscontroller.FilteredAircraftsEvent += AircraftsInsideAirspaceEventHandler;
             _collisionAvoidanceSystem.SeparationEvent += CollisionEventHandler;
+            _collisionAvoidanceSystem.SeparationAvoidedEvent += CollisionAvoidedEventHandler;
         }
-
         public void CollisionEventHandler(object sender, SeparationEventArgs e)
         {
             mut2.WaitOne();
             aircraftsColliding.Add(e);
             mut2.ReleaseMutex();
         }
+
+        public void CollisionAvoidedEventHandler(object sender, SeparationEventArgs e)
+        {
+            mut2.WaitOne();
+            aircraftsColliding.Remove(e);
+            mut2.ReleaseMutex();
+        }
+
+        
         public void TrackEnteredAirspaceEventHandler(object sender, TrackEnteredAirspaceEventArgs e)
         {
             Thread t1 = new Thread(new ThreadStart(() =>
@@ -87,11 +95,11 @@ namespace ATMHandin3.Classes
             if (aircraftsColliding.Count > 0)
             {
                 OutputAircraftsColliding();
-                aircraftsColliding.Clear();
             }
             int count = e.filteredAircraft.Count;
 
-            _output.OutputWriteline("Number of airplanes inside airspace : " + count);
+            _output.OutputWriteline("\nNumber of airplanes inside airspace : " + count);
+            _output.OutputWriteline("Number of colliding aircrafts : " + aircraftsColliding.Count);
 
         }
 
@@ -118,7 +126,6 @@ namespace ATMHandin3.Classes
                 _output.OutputWriteline(str);
 
             }
-            _output.OutputWriteline("");
             mut.ReleaseMutex();
         }
 
@@ -131,7 +138,6 @@ namespace ATMHandin3.Classes
                 string str = string.Format("AIRCRAFT EXITED AIRSPACE EVENT: Aircraft with tag:{0} just exited the airspace at time:{1}", aircraft.Tag,
                     dateTimeString);
                 _output.OutputWriteline(str);
-                _output.OutputWriteline("");
             }
             mut1.ReleaseMutex();
         }
@@ -145,15 +151,12 @@ namespace ATMHandin3.Classes
                 string dateTimeString = aircraft.a1.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
 
                 string str = string.Format(
-                    "\nAIRCRAFTS ARE COLLIDING: Aircraft with tag: {0} and {2} are colliding at time: {1}",
+                    "AIRCRAFTS ARE COLLIDING: Aircraft with tag: {0} and {2} are colliding at time: {1}",
                     aircraft.a1.Tag,
                     dateTimeString, aircraft.a2.Tag);
 
                 _output.OutputWriteline(str);
-                _output.OutputWriteline("");
             }
-
-
             mut2.ReleaseMutex();
         }
     }
