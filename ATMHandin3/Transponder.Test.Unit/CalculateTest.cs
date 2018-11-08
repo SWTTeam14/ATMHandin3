@@ -39,5 +39,18 @@ namespace Transponder.Test.Unit
 
             Assert.That(CalculatedDistance, Is.EqualTo(1946.124353683494707425007744333489429246012287529387513188));
         }
+
+        [Test]
+        public void TestUpdate() 
+        {
+            DateTime dateTime1 = DateTime.ParseExact("20151006213456789", "yyyyMMddHHmmssfff", System.Globalization.CultureInfo.InvariantCulture);
+            Aircraft aircraft1 = new Aircraft("ATR423", 39045, 12932, 14000, dateTime1);
+
+            DateTime dateTime2 = DateTime.ParseExact("20151006213558789", "yyyyMMddHHmmssfff", System.Globalization.CultureInfo.InvariantCulture);
+            Aircraft aircraft2 = new Aircraft("ATR423", 39100, 13000, 15000, dateTime2);
+
+            Calculate.Update(aircraft1, aircraft2);
+            Assert.AreEqual(aircraft2.HorizontalVelocity, 1.41062196);
+        }
     }
 }

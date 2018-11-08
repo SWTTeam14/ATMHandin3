@@ -11,7 +11,6 @@ namespace ATMHandin3.Classes
             double ydiff = ycoor2 - ycoor1;
 
             double distance = Math.Sqrt(Math.Pow(xdiff, 2) + Math.Pow(ydiff, 2));
-
             double velocity = (int)(distance / (timestamp2 - timestamp1).TotalSeconds);
 
             return velocity;
