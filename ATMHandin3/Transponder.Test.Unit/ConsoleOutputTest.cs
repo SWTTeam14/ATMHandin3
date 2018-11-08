@@ -118,7 +118,7 @@ namespace Transponder.Test.Unit
             amsController.TrackLeftAirspaceEvent +=
                 Raise.EventWith(this, new TrackLeftAirspaceEventArgs(a2));
 
-            Thread.Sleep(10);
+            Thread.Sleep(1000);
             Assert.That(2, Is.EqualTo(_uut.aircraftsJustExistedAirspace.Count));
 
             Thread.Sleep(5000);
