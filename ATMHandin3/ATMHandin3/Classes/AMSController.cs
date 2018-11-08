@@ -57,14 +57,9 @@ namespace ATMHandin3.Classes
                     }
                 }
             }
-            FilteredAircraftsEvent(this, new AircraftsFilteredEventArgs(filteredAircrafts));
+            FilteredAircraftsEvent?.Invoke(this, new AircraftsFilteredEventArgs(filteredAircrafts));
 
             //onFilteredAircraftsEvent(new AircraftsFilteredEventArgs(filteredAircrafts));
-        }
-
-        public void onFilteredAircraftsEvent(AircraftsFilteredEventArgs e)
-        {
-            FilteredAircraftsEvent?.Invoke(this, e);
         }
 
         public bool IsAircraftInside(Aircraft aircraft, IAirspace airspace)
@@ -78,7 +73,6 @@ namespace ATMHandin3.Classes
             foreach (var entry in filteredAircrafts.ToList().OrderBy(x => x.Key))
             {
                 Console.WriteLine(entry.Value.ToString()); ;
-
             }
         }
     }

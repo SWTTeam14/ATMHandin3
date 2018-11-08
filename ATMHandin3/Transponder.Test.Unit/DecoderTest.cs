@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ATMHandin3.Interfaces;
 using ATMHandin3.Classes;
+using ATMHandin3.Events;
 using NUnit.Framework;
 using NSubstitute;
 using TransponderReceiver;
@@ -20,7 +22,6 @@ namespace Transponder.Test.Unit
             _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
             _fakeDecoder = Substitute.For<IDecoder>();
             _uut = new Decoder(_fakeTransponderReceiver);
-
             _uut.DataDecodedEvent += (o, args) => { ++_nDataDecodedEvents; };
         }
 
@@ -39,13 +40,21 @@ namespace Transponder.Test.Unit
         }
 
         [Test]
+        public void TestConvertTime()
+        {
+            string testTime = "20151006213456789";
+            DateTime dateTime = DateTime.ParseExact(testTime, "yyyyMMddHHmmssfff", System.Globalization.CultureInfo.InvariantCulture);
+            Assert.That(_uut.ConvertTime(testTime), Is.EqualTo(dateTime));
+        }
+
+        [Test]
         public void TestConvertData()
         {
             string testData = "ATR423;39045;12932;14000;20151006213456789";
-
-            Aircraft ac = _fakeDecoder.convertData(testData);
-
-            Assert.That(_fakeDecoder.convertData(testData), Is.EqualTo(ac));
+            DateTime dateTime = DateTime.ParseExact("20151006213456789", "yyyyMMddHHmmssfff", System.Globalization.CultureInfo.InvariantCulture);
+            Aircraft aircraft = new Aircraft("ATR423", 39045, 12932, 14000, dateTime);
+            
+            Assert.That(_uut.ConvertData(testData).ToString(), Is.EqualTo(aircraft.ToString()));
         }
     }
 }

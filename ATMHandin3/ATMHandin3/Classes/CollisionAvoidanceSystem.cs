@@ -41,7 +41,7 @@ namespace ATMHandin3.Classes
 
                     if (IsColliding(ac1, ac2))
                     {
-                        SeparationEvent(this, new SeparationEventArgs(ac1, ac2));
+                        SeparationEvent?.Invoke(this, new SeparationEventArgs(ac1, ac2));
 
                         if (!_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
                         {
@@ -63,7 +63,7 @@ namespace ATMHandin3.Classes
 
         private bool IsColliding(Aircraft ac1, Aircraft ac2)
         {
-            int diffAltitude = Calculate.CalculateAltitudeDiff(ac1.Altitude, ac2.Altitude);
+            double diffAltitude = Calculate.CalculateAltitudeDiff(ac1.Altitude, ac2.Altitude);
             double diffLongitude = Calculate.DistanceTo(ac1.XCoordinate, ac2.XCoordinate, ac1.YCoordinate, ac2.YCoordinate);
             return diffAltitude <= _altitudeTolerance && diffLongitude <= _longitudeTolerance;
         }

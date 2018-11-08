@@ -12,9 +12,8 @@ namespace ATMHandin3.Interfaces
     public interface IDecoder
     {
         void ReceiverTransponderDataReady(object sender, RawTransponderDataEventArgs e);
-        void onDataDecodedEvent(DataDecodedEventArgs e);
-        Aircraft convertData(string data);
-        DateTime convertTime(string data);
+        Aircraft ConvertData(string data);
+        DateTime ConvertTime(string data);
 
         event EventHandler<DataDecodedEventArgs> DataDecodedEvent;
     }
