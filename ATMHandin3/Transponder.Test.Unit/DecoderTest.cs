@@ -20,7 +20,6 @@ namespace Transponder.Test.Unit
             _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
             _fakeDecoder = Substitute.For<IDecoder>();
             _uut = new Decoder(_fakeTransponderReceiver);
-
             _uut.DataDecodedEvent += (o, args) => { ++_nDataDecodedEvents; };
         }
 
@@ -43,9 +42,10 @@ namespace Transponder.Test.Unit
         {
             string testData = "ATR423;39045;12932;14000;20151006213456789";
 
-            Aircraft ac = _fakeDecoder.convertData(testData);
 
-            Assert.That(_fakeDecoder.convertData(testData), Is.EqualTo(ac));
+            Aircraft ac = _fakeDecoder.ConvertData(testData);
+
+            Assert.That(_fakeDecoder.ConvertData(testData), Is.EqualTo(ac));
         }
     }
 }
