@@ -16,19 +16,25 @@ namespace ATMHandin3.Classes
 
         public void ReceiverWarningRaised(object sender, SeparationEventArgs e)
         {
-            StreamWriter log;
+            CheckIfFileExists();
 
-            if (!(File.Exists(@"SeparationEventLogFile")))
-            {
-                File.Create(@"SeparationEventLogFile");
+            //var fileToCheck = ("Collision event; {0}; {1}; {2}", e.a1.Tag, e.a2.Tag, e.a1.TimeStamp);
+            
+            if (!File.ReadAllText(@"SeparationEventLogFile.txt").Contains(e.a1.Tag))
+            { 
+               using (var log = File.AppendText(@"SeparationEventLogFile.txt"))
+               {
+                   log.WriteLine("Collision event; {0}; {1}; {2}", e.a1.Tag, e.a2.Tag, e.a1.TimeStamp);
+               }
             }
+        }
 
-            if(File.ReadAllText(@"SeparationEventLogFile") != e.a1.Tag)
+        private static void CheckIfFileExists()
+        {
+            if (!(File.Exists(@"SeparationEventLogFile.txt")))
             {
-                using (log = File.AppendText(@"SeparationEventLogFile.txt"))
-                {
-                    log.WriteLine("Collision event; {0}; {1}; {2}", e.a1.Tag, e.a2.Tag, e.a1.TimeStamp);
-                }
+                var separationFile = File.Create(@"SeparationEventLogFile.txt");
+                separationFile.Close();
             }
         }
     }

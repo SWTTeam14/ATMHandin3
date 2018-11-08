@@ -23,7 +23,7 @@ namespace ATMHandin3
                 UpperAltitude: 20000
             ));
 
-            CollisionAvoidanceSystem cas = new CollisionAvoidanceSystem(ams,50000,10000);
+            CollisionAvoidanceSystem cas = new CollisionAvoidanceSystem(ams,25000,5000);
             FileLogger fl = new FileLogger(cas);
 
             ConsoleOutput c = new ConsoleOutput(ams,cas);
