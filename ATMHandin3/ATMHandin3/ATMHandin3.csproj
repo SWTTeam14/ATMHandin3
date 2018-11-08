@@ -62,12 +62,10 @@
     <Compile Include="Events\SeparationEventArgs.cs" />
     <Compile Include="Events\TrackEnteredAirspaceEventArgs.cs" />
     <Compile Include="Events\TrackLeftAirspaceEventArgs.cs" />
-    <Compile Include="Events\TransponderDataItemEventArgs.cs" />
     <Compile Include="Interfaces\IAMSController.cs" />
     <Compile Include="Interfaces\ICollisionAvoidanceSystem.cs" />
     <Compile Include="Interfaces\IDecoder.cs" />
     <Compile Include="Interfaces\IAirspace.cs" />
-    <Compile Include="Interfaces\IFileLogger.cs" />
     <Compile Include="Interfaces\IOutput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

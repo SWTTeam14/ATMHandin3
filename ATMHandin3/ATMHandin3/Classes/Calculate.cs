@@ -1,5 +1,4 @@
 ﻿using System;
-using ATMHandin3.Interfaces;
 
 namespace ATMHandin3.Classes
 {

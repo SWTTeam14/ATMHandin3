@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ATMHandin3.Events;
 using ATMHandin3.Interfaces;
 
@@ -65,14 +62,6 @@ namespace ATMHandin3.Classes
         {
             return aircraft.XCoordinate <= airspace.East && aircraft.XCoordinate >= airspace.West && aircraft.YCoordinate <= airspace.North && aircraft.YCoordinate >= airspace.South &&
                    aircraft.Altitude >= airspace.LowerAltitude && aircraft.Altitude <= airspace.UpperAltitude;
-        }
-
-        public void Print()
-        {
-            foreach (var entry in filteredAircrafts.ToList().OrderBy(x => x.Key))
-            {
-                Console.WriteLine(entry.Value.ToString()); ;
-            }
         }
     }
 }

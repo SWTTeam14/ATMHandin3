@@ -4,7 +4,7 @@ using ATMHandin3.Interfaces;
 
 namespace ATMHandin3.Classes
 {
-    public class FileLogger : IFileLogger
+    public class FileLogger
     {
         private ICollisionAvoidanceSystem _eventReceiver;
 
