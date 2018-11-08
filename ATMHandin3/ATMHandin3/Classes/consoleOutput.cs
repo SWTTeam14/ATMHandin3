@@ -16,14 +16,12 @@ namespace ATMHandin3.Classes
         private IAMSController _amscontroller;
         private ICollisionAvoidanceSystem _collisionAvoidanceSystem;
         
-        
         private List<Aircraft> aircraftsJustEnteredAirspace;
         private List<Aircraft> aircraftsJustExistedAirspace;
         private List<SeparationEventArgs> aircraftsColliding;
 
         public ConsoleOutput(IAMSController cont, ICollisionAvoidanceSystem collision)
         {
-            
             _collisionAvoidanceSystem = collision;
             aircraftsColliding = new List<SeparationEventArgs>();
             aircraftsJustEnteredAirspace = new List<Aircraft>();
