@@ -9,14 +9,14 @@ namespace ATMHandin3.Classes
     public class Decoder : IDecoder
     {
         public event EventHandler<DataDecodedEventArgs> DataDecodedEvent;
-        private ITransponderReceiver Receiver;
+        private ITransponderReceiver _receiver;
         private List<Aircraft> aircrafts;
 
         public Decoder(ITransponderReceiver receiver)
         {
-            Receiver = receiver;
+            _receiver = receiver;
             aircrafts = new List<Aircraft>();
-            Receiver.TransponderDataReady += ReceiverTransponderDataReady;
+            _receiver.TransponderDataReady += ReceiverTransponderDataReady;
         }
 
         public void ReceiverTransponderDataReady(object sender, RawTransponderDataEventArgs e)
