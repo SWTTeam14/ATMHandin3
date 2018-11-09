@@ -62,6 +62,7 @@ namespace Transponder.Test.Unit
             amsController.TrackEnteredAirspaceEvent +=
                 Raise.EventWith(this, new TrackEnteredAirspaceEventArgs(a1));
 
+            Thread.Sleep(10);
             amsController.TrackEnteredAirspaceEvent +=
                 Raise.EventWith(this, new TrackEnteredAirspaceEventArgs(a2));
 
