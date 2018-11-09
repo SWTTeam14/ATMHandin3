@@ -109,7 +109,7 @@ namespace Transponder.Test.Unit
             Thread.Sleep(1000);
             Assert.AreEqual(2, _uut.AircraftsJustExcitedAirspace.Count);
 
-            Thread.Sleep(6000);
+            Thread.Sleep(7000);
             Assert.AreEqual(0, _uut.AircraftsJustExcitedAirspace.Count);
         }
 
