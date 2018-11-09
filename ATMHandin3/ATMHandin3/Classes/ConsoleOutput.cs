@@ -10,17 +10,17 @@ namespace ATMHandin3.Classes
         private IAMSController _amscontroller;
         private ICollisionAvoidanceSystem _collisionAvoidanceSystem;
         private IOutput _output;
-        public List<Aircraft> aircraftsJustEnteredAirspace;
-        public List<Aircraft> aircraftsJustExistedAirspace;
-        public List<SeparationEventArgs> aircraftsColliding;
+        public List<Aircraft> AircraftsJustEnteredAirspace;
+        public List<Aircraft> AircraftsJustExcitedAirspace;
+        public List<SeparationEventArgs> AircraftsColliding;
 
         public ConsoleOutput(IAMSController amsController, ICollisionAvoidanceSystem collision, IOutput output)
         {
             _output = output;
             _collisionAvoidanceSystem = collision;
-            aircraftsColliding = new List<SeparationEventArgs>();
-            aircraftsJustEnteredAirspace = new List<Aircraft>();
-            aircraftsJustExistedAirspace = new List<Aircraft>();
+            AircraftsColliding = new List<SeparationEventArgs>();
+            AircraftsJustEnteredAirspace = new List<Aircraft>();
+            AircraftsJustExcitedAirspace = new List<Aircraft>();
             _amscontroller = amsController;
             _amscontroller.TrackEnteredAirspaceEvent += TrackEnteredAirspaceEventHandler;
             _amscontroller.TrackLeftAirspaceEvent += TrackLeftAirspaceEventHandler;
@@ -30,22 +30,22 @@ namespace ATMHandin3.Classes
         }
         public void CollisionEventHandler(object sender, SeparationEventArgs e)
         {
-            aircraftsColliding.Add(e);
+            AircraftsColliding.Add(e);
         }
 
         public void CollisionAvoidedEventHandler(object sender, SeparationEventArgs e)
         {
-            aircraftsColliding.Remove(e);
+            AircraftsColliding.Remove(e);
         }
 
         public void TrackEnteredAirspaceEventHandler(object sender, TrackEnteredAirspaceEventArgs e)
         {
-            aircraftsJustEnteredAirspace.Add(e.aircraft);
+            AircraftsJustEnteredAirspace.Add(e.aircraft);
             var t = new System.Timers.Timer();
             //Adds an eventhandler to the timer
             t.Elapsed += (o, args) =>
             {
-                aircraftsJustEnteredAirspace.Remove(e.aircraft);
+                AircraftsJustEnteredAirspace.Remove(e.aircraft);
             };
             t.Interval = 5000; // 5 second intervals
             t.AutoReset = false; 
@@ -54,11 +54,11 @@ namespace ATMHandin3.Classes
 
         public void TrackLeftAirspaceEventHandler(object sender, TrackLeftAirspaceEventArgs e)
         {
-            aircraftsJustExistedAirspace.Add(e.aircraft);
+            AircraftsJustExcitedAirspace.Add(e.aircraft);
             var t = new System.Timers.Timer();
             t.Elapsed += (o, args) =>
             {
-                aircraftsJustExistedAirspace.Remove(e.aircraft);
+                AircraftsJustExcitedAirspace.Remove(e.aircraft);
             };
             t.Interval = 5000; // 5 second intervals
             t.AutoReset = false;
@@ -70,21 +70,21 @@ namespace ATMHandin3.Classes
             _output.ClearScreen();
             OutputAircraftsInsideAirspace(e);
             _output.OutputWriteline("");
-            if (aircraftsJustEnteredAirspace.Count > 0)
+            if (AircraftsJustEnteredAirspace.Count > 0)
             {
                 OutputAircraftsWhoJustEnteredAirspace();
             }
-            if (aircraftsJustExistedAirspace.Count > 0)
+            if (AircraftsJustExcitedAirspace.Count > 0)
             {
                 OutputAircraftsWhoJustExitedAirspace();
             }
-            if (aircraftsColliding.Count > 0)
+            if (AircraftsColliding.Count > 0)
             {
                 OutputAircraftsColliding();
             }
             int count = e.filteredAircraft.Count;
             _output.OutputWriteline("\nNumber of airplanes inside airspace : " + count);
-            _output.OutputWriteline("Number of colliding aircrafts : " + aircraftsColliding.Count);
+            _output.OutputWriteline("Number of colliding aircrafts : " + AircraftsColliding.Count);
         }
 
         public void OutputAircraftsInsideAirspace(AircraftsFilteredEventArgs e)
@@ -99,7 +99,7 @@ namespace ATMHandin3.Classes
 
         public void OutputAircraftsWhoJustEnteredAirspace()
         {
-            foreach (var aircraft in aircraftsJustEnteredAirspace)
+            foreach (var aircraft in AircraftsJustEnteredAirspace)
             {
                 string dateTimeString = aircraft.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
                 string str = string.Format("AIRCRAFT ENTERED AIRSPACE EVENT: Aircraft with tag:{0} just entered the airspace at time:{1}", aircraft.Tag,
@@ -110,7 +110,7 @@ namespace ATMHandin3.Classes
 
         public void OutputAircraftsWhoJustExitedAirspace()
         {
-            foreach (var aircraft in aircraftsJustExistedAirspace)
+            foreach (var aircraft in AircraftsJustExcitedAirspace)
             {
                 string dateTimeString = aircraft.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
                 string str = string.Format("AIRCRAFT EXITED AIRSPACE EVENT: Aircraft with tag:{0} just exited the airspace at time:{1}", aircraft.Tag,
@@ -121,7 +121,7 @@ namespace ATMHandin3.Classes
 
         public void OutputAircraftsColliding()
         {
-            foreach (var aircraft in aircraftsColliding)
+            foreach (var aircraft in AircraftsColliding)
             {
                 string dateTimeString = aircraft.a1.TimeStamp.ToString("MMMM dd, yyyy HH:mm:ss fff");
                 string str = string.Format(

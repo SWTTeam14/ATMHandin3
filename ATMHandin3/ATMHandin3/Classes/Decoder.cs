@@ -6,7 +6,6 @@ using TransponderReceiver;
 
 namespace ATMHandin3.Classes
 {
-
     public class Decoder : IDecoder
     {
         public event EventHandler<DataDecodedEventArgs> DataDecodedEvent;
@@ -23,7 +22,6 @@ namespace ATMHandin3.Classes
         public void ReceiverTransponderDataReady(object sender, RawTransponderDataEventArgs e)
         {
             aircrafts.Clear();
-
             foreach (var data in e.TransponderData)
             {
                 aircrafts.Add(ConvertData(data));   
@@ -36,22 +34,15 @@ namespace ATMHandin3.Classes
             string[] tokens;
             char[] separators = { ';' };
             tokens = data.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-
             Aircraft aircraft = new Aircraft(tokens[0],int.Parse(tokens[1]), int.Parse(tokens[2]), int.Parse(tokens[3]), ConvertTime(tokens[4]));
-            
             return aircraft;
         }
 
         public DateTime ConvertTime(string data)
         {
-
             DateTime myDate = DateTime.ParseExact(data, "yyyyMMddHHmmssfff",
                 System.Globalization.CultureInfo.InvariantCulture);
-
             return myDate;
         }
-
     }
-
-
 }
