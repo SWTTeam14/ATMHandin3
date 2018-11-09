@@ -103,6 +103,7 @@ namespace Transponder.Test.Unit
             amsController.TrackLeftAirspaceEvent +=
                 Raise.EventWith(this, new TrackLeftAirspaceEventArgs(a1));
 
+            Thread.Sleep(100);
             amsController.TrackLeftAirspaceEvent +=
                 Raise.EventWith(this, new TrackLeftAirspaceEventArgs(a2));
 
