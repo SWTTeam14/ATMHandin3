@@ -90,10 +90,10 @@ namespace Transponder.Test.Integration
             Assert.AreEqual(_nSeparationEvents, 0);
         }
 
-        [Test]
-        public void TestConsoleOutputIsCorrect()
-        {
-
-        }
+        //[Test]
+        //public void TestConsoleOutputIsCorrect()
+        //{
+        //    
+        //}
     }
 }
