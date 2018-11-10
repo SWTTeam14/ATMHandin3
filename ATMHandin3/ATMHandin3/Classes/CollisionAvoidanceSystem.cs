@@ -9,11 +9,11 @@ namespace ATMHandin3.Classes
     public class CollisionAvoidanceSystem : ICollisionAvoidanceSystem
     {
         public event EventHandler<SeparationEventArgs> SeparationEvent;
-
+        public event EventHandler<SeparationEventArgs> SeparationAvoidedEvent;
         private IAMSController _eventReceiver;
         private double _longitudeTolerance;
         private double _altitudeTolerance;
-        private List<Tuple<Aircraft, Aircraft>> _collidingAircrafts = new List<Tuple<Aircraft, Aircraft>> { };
+        private List<Tuple<Aircraft, Aircraft, SeparationEventArgs>> _collidingAircrafts = new List<Tuple<Aircraft, Aircraft, SeparationEventArgs>> { };
 
         public CollisionAvoidanceSystem(IAMSController eventReceiver, double longitudeTolerance, double altitudeTolerance)
         {
@@ -36,26 +36,28 @@ namespace ATMHandin3.Classes
                 {
                     var ac1 = aircrafts.Values.ElementAt(i);
                     var ac2 = aircrafts.Values.ElementAt(j);
-
-
                     if (IsColliding(ac1, ac2))
                     {
-                        SeparationEvent?.Invoke(this, new SeparationEventArgs(ac1, ac2));
-
-                        //if (!_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
-                        //{
-                        //    var tempTuple = new Tuple<Aircraft, Aircraft>(ac1, ac2);
-                        //    _collidingAircrafts.Add(tempTuple);
-                        //}
+                        if (!_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
+                        {
+                            //This raises the collision event - but only the first time
+                            var tempTuple = new Tuple<Aircraft, Aircraft, SeparationEventArgs>(ac1, ac2, new SeparationEventArgs(ac1, ac2));
+                            _collidingAircrafts.Add(tempTuple);
+                            SeparationEvent?.Invoke(this, tempTuple.Item3);
+                        }
                     }
-                    //else
-                    //{
-                    //    if (_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
-                    //    {
-                    //        _collidingAircrafts.RemoveAll(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag);
-                    //        //SeparationAvoidedEvent(this, new SeparationAvoidedEventArgs(ac1, ac2));
-                    //    }
-                    //}
+                    else
+                    {
+                        if (_collidingAircrafts.Any(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag))
+                        {
+                            //This removes the collision event. 
+                            var tempTuple =
+                                _collidingAircrafts.Find(x => x.Item1.Tag == ac1.Tag && x.Item2.Tag == ac2.Tag);
+                            SeparationAvoidedEvent?.Invoke(this, tempTuple.Item3);
+                            _collidingAircrafts.Remove(tempTuple);
+                            
+                        }
+                    }
                 }
             }
         }

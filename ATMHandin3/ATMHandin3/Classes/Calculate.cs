@@ -8,11 +8,8 @@ namespace ATMHandin3.Classes
         {
             double xdiff = xcoor2 - xcoor1;
             double ydiff = ycoor2 - ycoor1;
-
             double distance = Math.Sqrt(Math.Pow(xdiff, 2) + Math.Pow(ydiff, 2));
-
             double velocity = (distance / (timestamp2 - timestamp1).TotalSeconds);
-
             return velocity;
         }
 
@@ -20,7 +17,6 @@ namespace ATMHandin3.Classes
         {
             double xdiff = xcoor2 - xcoor1;
             double ydiff = ycoor2 - ycoor1;
-
             double angle = Math.Atan(xdiff / ydiff) * 180 / Math.PI;
 
             if (ydiff < 0)
@@ -39,14 +35,12 @@ namespace ATMHandin3.Classes
             double xdiif = x1coor - x2coor;
             double ydiif = y1coor - y2coor;
             double longtitude = Math.Sqrt(Math.Pow(xdiif, 2) + Math.Pow(ydiif, 2));
-
             return longtitude;
         }
 
         public static double CalculateAltitudeDiff(double alti1, double alti2)
         {
             double diffAlti;
-
             if (alti1 > alti2)
             {
                 diffAlti = alti1 - alti2;
