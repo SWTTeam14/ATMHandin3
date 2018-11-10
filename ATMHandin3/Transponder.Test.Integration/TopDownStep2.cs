@@ -70,11 +70,5 @@ namespace Transponder.Test.Integration
             //We expect based on the previous assert result, that this will result in a separation event.
             Assert.AreEqual(_nSeparationEvents, 0);
         }
-
-        //[Test]
-        //public void TestConsoleOutputIsCorrect()
-        //{
-        //    
-        //}
     }
 }
