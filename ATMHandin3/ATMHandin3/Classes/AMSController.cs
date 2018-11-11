@@ -25,6 +25,7 @@ namespace ATMHandin3.Classes
             _decoder.DataDecodedEvent += DataDecodedEventHandler;
         }
 
+
         public void DataDecodedEventHandler(object sender, DataDecodedEventArgs e)
         {
             foreach (var aircraft in e.Aircrafts)
