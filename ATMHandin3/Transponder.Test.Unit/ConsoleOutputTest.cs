@@ -50,7 +50,7 @@ namespace Transponder.Test.Unit
             collisionAvoidanceSystem.SeparationEvent += Raise.EventWith(this, new SeparationEventArgs(a1, a2));
             collisionAvoidanceSystem.SeparationEvent += Raise.EventWith(this, new SeparationEventArgs(a1, a2));
 
-            Assert.That(2, Is.EqualTo(_uut.aircraftsColliding.Count));
+            Assert.That(2, Is.EqualTo(_uut.AircraftsColliding.Count));
         }
 
         [Test]
@@ -62,14 +62,15 @@ namespace Transponder.Test.Unit
             amsController.TrackEnteredAirspaceEvent +=
                 Raise.EventWith(this, new TrackEnteredAirspaceEventArgs(a1));
 
+            Thread.Sleep(10);
             amsController.TrackEnteredAirspaceEvent +=
                 Raise.EventWith(this, new TrackEnteredAirspaceEventArgs(a2));
 
             Thread.Sleep(10);
-            Assert.That(2, Is.EqualTo(_uut.aircraftsJustEnteredAirspace.Count));
+            Assert.That(2, Is.EqualTo(_uut.AircraftsJustEnteredAirspace.Count));
 
             Thread.Sleep(7000);
-            Assert.AreEqual(0, _uut.aircraftsJustEnteredAirspace.Count);
+            Assert.AreEqual(0, _uut.AircraftsJustEnteredAirspace.Count);
         }
 
         [Test]
@@ -86,10 +87,10 @@ namespace Transponder.Test.Unit
                 Raise.EventWith(this, new TrackEnteredAirspaceEventArgs(a2));
 
             Thread.Sleep(1000);
-            Assert.That(2, Is.EqualTo(_uut.aircraftsJustEnteredAirspace.Count));
+            Assert.That(2, Is.EqualTo(_uut.AircraftsJustEnteredAirspace.Count));
 
             Thread.Sleep(3000);
-            Assert.That(2, Is.EqualTo(_uut.aircraftsJustEnteredAirspace.Count));
+            Assert.That(2, Is.EqualTo(_uut.AircraftsJustEnteredAirspace.Count));
 
         }
 
@@ -103,14 +104,15 @@ namespace Transponder.Test.Unit
             amsController.TrackLeftAirspaceEvent +=
                 Raise.EventWith(this, new TrackLeftAirspaceEventArgs(a1));
 
+            Thread.Sleep(100);
             amsController.TrackLeftAirspaceEvent +=
                 Raise.EventWith(this, new TrackLeftAirspaceEventArgs(a2));
 
             Thread.Sleep(1000);
-            Assert.AreEqual(2, _uut.aircraftsJustExistedAirspace.Count);
+            Assert.AreEqual(2, _uut.AircraftsJustExcitedAirspace.Count);
 
-            Thread.Sleep(6000);
-            Assert.AreEqual(0, _uut.aircraftsJustExistedAirspace.Count);
+            Thread.Sleep(7000);
+            Assert.AreEqual(0, _uut.AircraftsJustExcitedAirspace.Count);
         }
 
         [Test]
@@ -127,10 +129,10 @@ namespace Transponder.Test.Unit
                 Raise.EventWith(this, new TrackLeftAirspaceEventArgs(a2));
 
             Thread.Sleep(10);
-            Assert.That(2, Is.EqualTo(_uut.aircraftsJustExistedAirspace.Count));
+            Assert.That(2, Is.EqualTo(_uut.AircraftsJustExcitedAirspace.Count));
 
             Thread.Sleep(4000);
-            Assert.That(2, Is.EqualTo(_uut.aircraftsJustExistedAirspace.Count));
+            Assert.That(2, Is.EqualTo(_uut.AircraftsJustExcitedAirspace.Count));
         }
 
         [Test]
