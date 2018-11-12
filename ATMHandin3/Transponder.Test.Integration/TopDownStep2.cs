@@ -36,8 +36,7 @@ namespace Transponder.Test.Integration
             
             _realAvoidanceSystem.SeparationEvent += (o, args) => { ++_nSeparationEvents; };
         }
-
-        #region CollisionAvoidanceSystem Tests
+        
         [Test]
         public void TestSeparationEventIsRaised()
         {
@@ -71,11 +70,5 @@ namespace Transponder.Test.Integration
             //We expect based on the previous assert result, that this will result in a separation event.
             Assert.AreEqual(_nSeparationEvents, 0);
         }
-
-        //[Test]
-        //public void TestConsoleOutputIsCorrect()
-        //{
-        //    
-        //}
     }
 }
