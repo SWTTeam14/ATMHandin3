@@ -66,6 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TopDownStep2.cs" />
+    <Compile Include="TopDownStep1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

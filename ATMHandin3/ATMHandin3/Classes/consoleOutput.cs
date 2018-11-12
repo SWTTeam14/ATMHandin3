@@ -22,6 +22,7 @@ namespace ATMHandin3.Classes
             AircraftsJustEnteredAirspace = new List<Aircraft>();
             AircraftsJustExcitedAirspace = new List<Aircraft>();
             _amscontroller = amsController;
+
             _amscontroller.TrackEnteredAirspaceEvent += TrackEnteredAirspaceEventHandler;
             _amscontroller.TrackLeftAirspaceEvent += TrackLeftAirspaceEventHandler;
             _amscontroller.FilteredAircraftsEvent += AircraftsInsideAirspaceEventHandler;
