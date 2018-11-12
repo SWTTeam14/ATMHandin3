@@ -46,6 +46,8 @@ namespace Transponder.Test.Integration
         [Test]
         public void test_that_a_filteredAircraftEvent_is_raised_when_transponderData_is_ready()
         {
+            _nFilteredAircraftEvent = 0;
+
             string testData1 = "ATR423;39044;12931;13999;20151006213456789";
             string testData2 = "GFD123;39045;12932;14000;20151006213456789";
             string testData3 = "MKD936;90001;12932;14000;20151006213456789";
@@ -67,6 +69,8 @@ namespace Transponder.Test.Integration
         [Test]
         public void test_2_tracks_enter_airspace_and_1_leave()
         {
+            _nTrackEnteredAirspaceEvent = 0;
+
             string testData1 = "ATR423;39045;12932;14000;20151006213456789";
             string testData2 = "GFD123;39045;12932;14000;20151006213456789";
             string testData3 = "MKD936;90001;12932;14000;20151006213456789";
