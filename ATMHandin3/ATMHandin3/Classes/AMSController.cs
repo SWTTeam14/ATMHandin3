@@ -25,7 +25,6 @@ namespace ATMHandin3.Classes
             _decoder.DataDecodedEvent += DataDecodedEventHandler;
         }
 
-
         public void DataDecodedEventHandler(object sender, DataDecodedEventArgs e)
         {
             foreach (var aircraft in e.Aircrafts)
@@ -56,9 +55,7 @@ namespace ATMHandin3.Classes
                 }
             }
             FilteredAircraftsEvent?.Invoke(this, new AircraftsFilteredEventArgs(filteredAircrafts));
-            
         }
-
         public bool IsAircraftInside(Aircraft aircraft, IAirspace airspace)
         {
             return aircraft.XCoordinate <= airspace.East && aircraft.XCoordinate >= airspace.West && aircraft.YCoordinate <= airspace.North && aircraft.YCoordinate >= airspace.South &&
