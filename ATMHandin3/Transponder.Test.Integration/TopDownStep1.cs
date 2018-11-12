@@ -58,7 +58,8 @@ namespace Transponder.Test.Integration
             transponder.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraftTestData));
             Thread.Sleep(1000);
 
-            Assert.That(_nFilteredAircraftEvent, Is.EqualTo(1));
+            //Assert.That(_nFilteredAircraftEvent, Is.EqualTo(1));
+            Assert.AreEqual(1, _nFilteredAircraftEvent);
            
         }
 
