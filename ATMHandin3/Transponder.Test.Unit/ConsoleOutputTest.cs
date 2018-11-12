@@ -70,7 +70,7 @@ namespace Transponder.Test.Unit
             Assert.That(2, Is.EqualTo(_uut.AircraftsJustEnteredAirspace.Count));
 
             Thread.Sleep(7000);
-            Assert.AreEqual(0, _uut.AircraftsJustEnteredAirspace.Count);
+            Assert.AreEqual(0, _uut.AircraftsJustEnteredAirspace.Count); // blabla
         }
 
         [Test]
