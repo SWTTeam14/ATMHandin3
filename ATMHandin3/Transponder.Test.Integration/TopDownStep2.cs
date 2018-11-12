@@ -36,7 +36,7 @@ namespace Transponder.Test.Integration
             
             _realAvoidanceSystem.SeparationEvent += (o, args) => { ++_nSeparationEvents; };
         }
-        
+
         [Test]
         public void TestSeparationEventIsRaised()
         {
