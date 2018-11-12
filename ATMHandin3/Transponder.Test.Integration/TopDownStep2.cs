@@ -37,6 +37,7 @@ namespace Transponder.Test.Integration
             _realAvoidanceSystem.SeparationEvent += (o, args) => { ++_nSeparationEvents; };
         }
 
+        #region CollisionAvoidanceSystem Tests
         [Test]
         public void TestSeparationEventIsRaised()
         {
@@ -49,7 +50,7 @@ namespace Transponder.Test.Integration
 
             RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
             _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
-            
+
             //We expect based on the previous assert result, that this will result in a separation event.
             Assert.AreEqual(_nSeparationEvents, 1);
         }
@@ -66,11 +67,19 @@ namespace Transponder.Test.Integration
 
             RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
             _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
-            
+
             //We expect based on the previous assert result, that this will result in a separation event.
             Assert.AreEqual(_nSeparationEvents, 0);
         }
 
+
+        #endregion
+
+        #region Output Tests
+
+        
+
+        #endregion
         //[Test]
         //public void TestConsoleOutputIsCorrect()
         //{

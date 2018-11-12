@@ -88,7 +88,7 @@ namespace Transponder.Test.Integration
             transponder.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraftTestData));
 
             Assert.That(_nTrackLeftAirspaceEvent, Is.EqualTo(1));
-
         }
+
     }
 }
