@@ -55,9 +55,7 @@ namespace ATMHandin3.Classes
                 }
             }
             FilteredAircraftsEvent?.Invoke(this, new AircraftsFilteredEventArgs(filteredAircrafts));
-            
         }
-
         public bool IsAircraftInside(Aircraft aircraft, IAirspace airspace)
         {
             return aircraft.XCoordinate <= airspace.East && aircraft.XCoordinate >= airspace.West && aircraft.YCoordinate <= airspace.North && aircraft.YCoordinate >= airspace.South &&
