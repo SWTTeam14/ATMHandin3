@@ -8,8 +8,6 @@ using ATMHandin3.Interfaces;
 using NUnit.Framework;
 using NSubstitute;
 using TransponderReceiver;
-using ATMHandin3.Classes;
-using ATMHandin3.Events;
 
 namespace Transponder.Test.Integration
 {
@@ -18,7 +16,6 @@ namespace Transponder.Test.Integration
     {
         private ITransponderReceiver transponder;
         private IAirspace airspace;
-        private ICollisionAvoidanceSystem iCol;
         private ATMHandin3.Classes.Decoder decoder;
 
         private AMSController amsController;
@@ -30,8 +27,6 @@ namespace Transponder.Test.Integration
         [SetUp]
         public void SetUp()
         {
-            
-            iCol = Substitute.For<ICollisionAvoidanceSystem>();
             transponder = Substitute.For<ITransponderReceiver>();
             
             airspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
@@ -59,8 +54,7 @@ namespace Transponder.Test.Integration
 
             transponder.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraftTestData));
             Thread.Sleep(4000);
-
-            //Assert.That(_nFilteredAircraftEvent, Is.EqualTo(1));
+            
             Assert.AreEqual(1, _nFilteredAircraftEvent);
            
         }
