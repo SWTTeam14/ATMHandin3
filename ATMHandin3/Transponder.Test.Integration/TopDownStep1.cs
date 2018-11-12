@@ -19,6 +19,7 @@ namespace Transponder.Test.Integration
         private ITransponderReceiver transponder;
         private IAirspace airspace;
         private ICollisionAvoidanceSystem iCol;
+        private IOutput output;
         private ATMHandin3.Classes.Decoder decoder;
 
         private AMSController amsController;
@@ -33,7 +34,8 @@ namespace Transponder.Test.Integration
             
             iCol = Substitute.For<ICollisionAvoidanceSystem>();
             transponder = Substitute.For<ITransponderReceiver>();
-            
+            output = Substitute.For<IOutput>();
+
             airspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
             decoder = new Decoder(transponder);
             amsController = new AMSController(decoder, airspace);
@@ -62,7 +64,8 @@ namespace Transponder.Test.Integration
 
             //Assert.That(_nFilteredAircraftEvent, Is.EqualTo(1));
             Assert.AreEqual(1, _nFilteredAircraftEvent);
-           
+
+
         }
 
 
@@ -93,6 +96,7 @@ namespace Transponder.Test.Integration
             transponder.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraftTestData));
 
             Assert.That(_nTrackLeftAirspaceEvent, Is.EqualTo(1));
+
         }
 
     }
