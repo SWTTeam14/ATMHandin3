@@ -98,5 +98,33 @@ namespace Transponder.Test.Integration
             Assert.That(_nTrackLeftAirspaceEvent, Is.EqualTo(1));
 
         }
-    }
+
+        [Test]
+        public void test_that_amscontroller_receives_correct_data_from_decoder()
+        {
+            _nDataDecodedEvent = 0;
+            _nFilteredAircraftEvent = 0;
+
+            List<string> aircraList = new List<string>();
+
+            string testData1 = "ttt;20000;20000;5000;19940903000000000";
+            string testData2 = "yyy;20000;20000;4500;19940903000000000";
+
+            aircraList.Add(testData1);
+            aircraList.Add(testData2);
+
+            transponder.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraList));
+
+            Assert.AreEqual(_nDataDecodedEvent, 1);
+
+            Dictionary<string, Aircraft> airctaftsToTest = new Dictionary<string, Aircraft>();
+
+            Aircraft a1 = new Aircraft("ttt", 20000, 20000, 5000, new DateTime(1994, 09, 3));
+            Aircraft a2 = new Aircraft("yyy", 20000, 20000, 4500, new DateTime(1994, 09, 3));
+
+            airctaftsToTest.Add("ttt", a1);
+            airctaftsToTest.Add("yyy", a2);
+
+            CollectionAssert.AreEquivalent(amsController.filteredAircrafts.Keys, airctaftsToTest.Keys);
+        }
 }
