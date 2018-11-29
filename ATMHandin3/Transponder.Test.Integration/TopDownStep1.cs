@@ -19,7 +19,6 @@ namespace Transponder.Test.Integration
         private IAirspace airspace;
         private ICollisionAvoidanceSystem iCol;
         private IOutput output;
-        private ATMHandin3.Classes.Decoder decoder;
 
         private Decoder decoder;
         private AMSController amsController;
