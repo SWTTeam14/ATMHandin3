@@ -17,8 +17,8 @@ namespace Transponder.Test.Integration
     {
         private ITransponderReceiver transponder;
         private IAirspace airspace;
-        private ATMHandin3.Classes.Decoder decoder;
 
+        private Decoder decoder;
         private AMSController amsController;
         
         private int _nFilteredAircraftEvent = 0;
