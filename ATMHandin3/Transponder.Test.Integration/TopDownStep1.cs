@@ -19,7 +19,7 @@ namespace Transponder.Test.Integration
         private ITransponderReceiver transponder;
         private IAirspace airspace;
         private ICollisionAvoidanceSystem iCol;
-        private IOutput output;
+        private IConsoleOutput consoleOutput;
         private ATMHandin3.Classes.Decoder decoder;
 
         private AMSController amsController;
@@ -27,6 +27,7 @@ namespace Transponder.Test.Integration
         private int _nFilteredAircraftEvent = 0;
         private int _nTrackEnteredAirspaceEvent = 0;
         private int _nTrackLeftAirspaceEvent = 0;
+        private int _nDataDecodedEvents = 0;
         
         [SetUp]
         public void SetUp()
@@ -34,7 +35,7 @@ namespace Transponder.Test.Integration
             
             iCol = Substitute.For<ICollisionAvoidanceSystem>();
             transponder = Substitute.For<ITransponderReceiver>();
-            output = Substitute.For<IOutput>();
+            consoleOutput = Substitute.For<IConsoleOutput>();
 
             airspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
             decoder = new Decoder(transponder);
@@ -43,6 +44,7 @@ namespace Transponder.Test.Integration
             amsController.FilteredAircraftsEvent += (o, args) => { ++_nFilteredAircraftEvent; };
             amsController.TrackEnteredAirspaceEvent += (o, args) => { ++_nTrackEnteredAirspaceEvent; };
             amsController.TrackLeftAirspaceEvent += (o, args) => { ++_nTrackLeftAirspaceEvent; };
+            decoder.DataDecodedEvent += (o, args) => { ++_nDataDecodedEvents; };
         }
 
         [Test]
@@ -64,10 +66,7 @@ namespace Transponder.Test.Integration
 
             //Assert.That(_nFilteredAircraftEvent, Is.EqualTo(1));
             Assert.AreEqual(1, _nFilteredAircraftEvent);
-
-
         }
-
 
         [Test]
         public void test_2_tracks_enter_airspace_and_1_leave()
@@ -98,8 +97,26 @@ namespace Transponder.Test.Integration
             transponder.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraftTestData));
 
             Assert.That(_nTrackLeftAirspaceEvent, Is.EqualTo(1));
-
         }
 
+        [Test]
+        public void test_if_decoder_sends_the_right_aircraft_data()
+        {
+            _nDataDecodedEvents = 0;
+            List<Aircraft> aircrafts = new List<Aircraft>();
+            Aircraft a1 = new Aircraft("ttt", 9000, 9000, 5000, new DateTime(1994, 09, 3));
+            Aircraft a2 = new Aircraft("yyy", 9000, 9000, 5000, new DateTime(1994, 09, 3));
+
+            aircrafts.Add(a1);
+            aircrafts.Add(a2);
+
+            //DataDecodedEventArgs args = new DataDecodedEventArgs(aircrafts);
+            decoder.DataDecodedEvent += Raise.EventWith(this, new DataDecodedEventArgs(aircrafts));
+
+            Thread.Sleep(4000);
+            Assert.AreEqual( _nDataDecodedEvents, 1);
+            //Assert.That(1, Is.EqualTo(_nDataDecodedEvents));
+
+        }
     }
 }
