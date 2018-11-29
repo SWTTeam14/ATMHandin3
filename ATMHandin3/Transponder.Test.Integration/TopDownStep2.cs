@@ -15,7 +15,7 @@ namespace Transponder.Test.Integration
         private IOutput _fakeOutput;
         private IFileLogger _fakeFileLogger;
 
-        private ATMHandin3.Classes.Decoder _realDecoder;
+        private Decoder _realDecoder;
         private AMSController _realAmsController;
         private CollisionAvoidanceSystem _realAvoidanceSystem;
         private Airspace _realAirspace;
@@ -31,7 +31,7 @@ namespace Transponder.Test.Integration
             _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
 
             _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
-            _realDecoder = new ATMHandin3.Classes.Decoder(_fakeTransponderReceiver);
+            _realDecoder = new Decoder(_fakeTransponderReceiver);
 
             // UNDER TEST
             _realAmsController = new AMSController(_realDecoder, _realAirspace);
@@ -123,9 +123,5 @@ namespace Transponder.Test.Integration
             _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of airplanes inside airspace : 3")));
             
         }
-
-   
-
-
     }
 }
