@@ -17,10 +17,11 @@ namespace ATMHandin3.Classes
 
         public void ReceiverWarningRaised(object sender, SeparationEventArgs e)
         {
-           using (var log = File.AppendText(@"SeparationEventLogFile.txt"))
-           {
-                log.WriteLine("Collision event; {0}; {1}; {2}", e.a1.Tag, e.a2.Tag, e.a1.TimeStamp);
-           }
+            
+            using (var log = File.AppendText(@"SeparationEventLogFile.txt"))
+            {
+                 log.WriteLine("Collision event; {0}; {1}; {2}", e.a1.Tag, e.a2.Tag, e.a1.TimeStamp);
+            }
         }
 
         public bool CheckIfFileExists()
