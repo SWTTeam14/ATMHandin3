@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ATMHandin3.Interfaces;
 using ATMHandin3.Classes;
-using ATMHandin3.Events;
 using NUnit.Framework;
 using NSubstitute;
 using TransponderReceiver;
@@ -33,7 +25,9 @@ namespace Transponder.Test.Integration
         public void Setup()
         {
             _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
-            
+            _fakeOutput = Substitute.For<IOutput>();
+            _fakeFileLogger = Substitute.For<IFileLogger>();
+
             _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
 
             _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
