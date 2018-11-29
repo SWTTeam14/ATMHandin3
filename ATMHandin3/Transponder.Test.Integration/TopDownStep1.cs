@@ -17,6 +17,9 @@ namespace Transponder.Test.Integration
     {
         private ITransponderReceiver transponder;
         private IAirspace airspace;
+        private ICollisionAvoidanceSystem iCol;
+        private IOutput output;
+        private ATMHandin3.Classes.Decoder decoder;
 
         private Decoder decoder;
         private AMSController amsController;
@@ -30,7 +33,8 @@ namespace Transponder.Test.Integration
         public void SetUp()
         {
             transponder = Substitute.For<ITransponderReceiver>();
-            
+            output = Substitute.For<IOutput>();
+
             airspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
             decoder = new Decoder(transponder);
             amsController = new AMSController(decoder, airspace);
@@ -38,8 +42,6 @@ namespace Transponder.Test.Integration
             amsController.FilteredAircraftsEvent += (o, args) => { ++_nFilteredAircraftEvent; };
             amsController.TrackEnteredAirspaceEvent += (o, args) => { ++_nTrackEnteredAirspaceEvent; };
             amsController.TrackLeftAirspaceEvent += (o, args) => { ++_nTrackLeftAirspaceEvent; };
-
-            decoder.DataDecodedEvent += (o, args) => { ++_nDataDecodedEvent; };
         }
 
         [Test]
@@ -60,9 +62,9 @@ namespace Transponder.Test.Integration
             Thread.Sleep(4000);
             
             Assert.AreEqual(1, _nFilteredAircraftEvent);
-           
-        }
 
+
+        }
 
         [Test]
         public void test_2_tracks_enter_airspace_and_1_leave()
@@ -94,37 +96,7 @@ namespace Transponder.Test.Integration
             transponder.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraftTestData));
 
             Assert.That(_nTrackLeftAirspaceEvent, Is.EqualTo(1));
-            
+
         }
-
-        [Test]
-        public void test_that_amscontroller_receives_correct_data_from_decoder()
-        {
-            _nDataDecodedEvent = 0;
-            _nFilteredAircraftEvent = 0;
-
-            List<string> aircraList = new List<string>();
-            
-            string testData1 = "ttt;20000;20000;5000;19940903000000000";
-            string testData2 = "yyy;20000;20000;4500;19940903000000000";
-            
-            aircraList.Add(testData1);
-            aircraList.Add(testData2);
-            
-            transponder.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraList));
-
-            Assert.AreEqual(_nDataDecodedEvent, 1);
-
-            Dictionary<string, Aircraft> airctaftsToTest = new Dictionary<string, Aircraft>();
-
-            Aircraft a1 = new Aircraft("ttt", 20000, 20000, 5000, new DateTime(1994, 09, 3));
-            Aircraft a2 = new Aircraft("yyy", 20000, 20000, 4500, new DateTime(1994, 09, 3));
-
-            airctaftsToTest.Add("ttt", a1);
-            airctaftsToTest.Add("yyy", a2);
-            
-            CollectionAssert.AreEquivalent(amsController.filteredAircrafts.Keys, airctaftsToTest.Keys);
-        }
-
     }
 }
