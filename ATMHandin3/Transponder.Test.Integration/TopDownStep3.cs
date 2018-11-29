@@ -80,7 +80,6 @@ namespace Transponder.Test.Integration
         public void Test_that_output_gets_the_correct_data_from_avoidance_system_through_consoleOutput()
         {
             //Merge comment
-            //Merge second comment
             _nSeperationEvent = 0;
 
             List<string> aircraftList = new List<string>();
