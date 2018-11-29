@@ -18,6 +18,7 @@ namespace Transponder.Test.Unit
         private IAirspace _fakeAirspace;
         
         private AMSController _uut;
+        private Airspace _testAirspace;
 
         private int _nFilteredAircraftEvent = 0;
         private int _nTrackEnteredAirspaceEvent = 0;
@@ -29,8 +30,16 @@ namespace Transponder.Test.Unit
         {
             _fakeDecoder = Substitute.For<IDecoder>();
             _fakeAirspace = Substitute.For<IAirspace>();
-            
-            
+
+            _testAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000)
+            {
+                South = 10000,
+                West = 10000,
+                North = 90000,
+                East = 90000,
+                LowerAltitude = 500,
+                UpperAltitude = 20000
+            };
 
             _uut = new AMSController(_fakeDecoder, _fakeAirspace);
 
