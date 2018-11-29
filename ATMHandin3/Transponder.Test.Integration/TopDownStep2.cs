@@ -28,7 +28,14 @@ namespace Transponder.Test.Integration
         {
             _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
             
-            _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
+            _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000) {
+                South = 10000,
+                West = 10000,
+                North = 90000,
+                East = 90000,
+                LowerAltitude = 500,
+                UpperAltitude = 20000
+                };
 
             _realDecoder = new ATMHandin3.Classes.Decoder(_fakeTransponderReceiver);
             _realAmsController = new AMSController(_realDecoder, _realAirspace);
