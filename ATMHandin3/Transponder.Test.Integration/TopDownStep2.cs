@@ -33,9 +33,8 @@ namespace Transponder.Test.Integration
         public void Setup()
         {
             _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
-            _fakeOutput = Substitute.For<IOutput>();
-            _fakeFileLogger = Substitute.For<IFileLogger>();
-
+            
+            _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
 
             _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
             _realDecoder = new ATMHandin3.Classes.Decoder(_fakeTransponderReceiver);
