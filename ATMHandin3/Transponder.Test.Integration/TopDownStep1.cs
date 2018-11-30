@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using ATMHandin3.Classes;
-using ATMHandin3.Events;
 using ATMHandin3.Interfaces;
 using NUnit.Framework;
 using NSubstitute;
@@ -17,8 +14,6 @@ namespace Transponder.Test.Integration
     {
         private ITransponderReceiver transponder;
         private IAirspace airspace;
-        private ICollisionAvoidanceSystem iCol;
-        private IOutput output;
         
         private Decoder decoder;
         private AMSController amsController;
@@ -32,7 +27,6 @@ namespace Transponder.Test.Integration
         public void SetUp()
         {
             transponder = Substitute.For<ITransponderReceiver>();
-            output = Substitute.For<IOutput>();
 
             airspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
             decoder = new Decoder(transponder);

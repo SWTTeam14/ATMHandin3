@@ -13,9 +13,8 @@ namespace Transponder.Test.Integration
 
         private ITransponderReceiver _fakeTransponderReceiver;
         private IOutput _fakeOutput;
-        private IFileLogger _fakeFileLogger;
 
-        private ATMHandin3.Classes.Decoder _realDecoder;
+        private Decoder _realDecoder;
         private AMSController _realAmsController;
         private CollisionAvoidanceSystem _realAvoidanceSystem;
         private Airspace _realAirspace;
@@ -26,16 +25,16 @@ namespace Transponder.Test.Integration
         {
             _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
             _fakeOutput = Substitute.For<IOutput>();
-            _fakeFileLogger = Substitute.For<IFileLogger>();
 
             _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
 
             _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
-            _realDecoder = new ATMHandin3.Classes.Decoder(_fakeTransponderReceiver);
+            _realDecoder = new Decoder(_fakeTransponderReceiver);
 
             // UNDER TEST
             _realAmsController = new AMSController(_realDecoder, _realAirspace);
             _realAvoidanceSystem = new CollisionAvoidanceSystem(_realAmsController, 5000, 300);
+            //Tests will not work, if ConsoleOutput is not present.
             _realConsoleOutput = new ConsoleOutput(_realAmsController, _realAvoidanceSystem, _fakeOutput);
 
             _realAvoidanceSystem.SeparationEvent += (o, args) => { ++_nSeparationEvents; };
