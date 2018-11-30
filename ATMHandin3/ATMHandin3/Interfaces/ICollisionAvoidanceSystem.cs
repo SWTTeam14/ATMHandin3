@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using ATMHandin3.Classes;
 using ATMHandin3.Events;
 
 namespace ATMHandin3.Interfaces
@@ -7,5 +9,6 @@ namespace ATMHandin3.Interfaces
     {
         event EventHandler<SeparationEventArgs> SeparationEvent;
         event EventHandler<SeparationEventArgs> SeparationAvoidedEvent;
+        void CollisionWarning(IDictionary<string, Aircraft> aircrafts);
     }
 }

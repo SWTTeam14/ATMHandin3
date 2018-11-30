@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ATMHandin3.Interfaces;
 using ATMHandin3.Classes;
@@ -10,7 +11,8 @@ namespace Transponder.Test.Integration
 {
     public class TopDownStep2
     {
-        private int _nSeparationEvents;
+        private int _nSeparationEvents = 0;
+        private int _nFilteredAircraftsEvent = 0;
 
         private ITransponderReceiver _fakeTransponderReceiver;
         private IOutput _fakeOutput;
@@ -130,6 +132,7 @@ namespace Transponder.Test.Integration
             _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
 
             _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of airplanes inside airspace : 1")));
+
         }
 
 
