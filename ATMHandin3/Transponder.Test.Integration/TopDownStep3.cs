@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ATMHandin3.Interfaces;
 using ATMHandin3.Classes;
-using ATMHandin3.Events;
 using NUnit.Framework;
 using NSubstitute;
 using TransponderReceiver;
@@ -20,7 +15,7 @@ namespace Transponder.Test.Integration
         private ITransponderReceiver _fakeTransponderReceiver;
         private IOutput _fakeOutput;
 
-        private ATMHandin3.Classes.Decoder _realDecoder;
+        private Decoder _realDecoder;
         private AMSController _realAmsController;
         private CollisionAvoidanceSystem _realAvoidanceSystem;
         private ConsoleOutput _realConsoleOutput;
@@ -43,7 +38,7 @@ namespace Transponder.Test.Integration
                 UpperAltitude = 20000
             };
 
-            _realDecoder = new ATMHandin3.Classes.Decoder(_fakeTransponderReceiver);
+            _realDecoder = new Decoder(_fakeTransponderReceiver);
             _realAmsController = new AMSController(_realDecoder, _realAirspace);
             _realAvoidanceSystem = new CollisionAvoidanceSystem(_realAmsController, 5000, 300);
             _realFileLogger = new FileLogger(_realAvoidanceSystem);
@@ -98,8 +93,6 @@ namespace Transponder.Test.Integration
         [Test]
         public void Test_that_output_gets_the_correct_data_from_avoidance_system_through_consoleOutput()
         {
-            //Merge comment
-            //Merge second comment
             _nSeperationEvent = 0;
 
             List<string> aircraftList = new List<string>();
