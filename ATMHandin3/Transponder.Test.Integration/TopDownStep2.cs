@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using ATMHandin3.Interfaces;
 using ATMHandin3.Classes;
 using NUnit.Framework;
@@ -13,6 +14,8 @@ namespace Transponder.Test.Integration
 
         private ITransponderReceiver _fakeTransponderReceiver;
         private IOutput _fakeOutput;
+        private IFileLogger _fakeFileLogger;
+        private ILogger _fakeLogger;
 
         private Decoder _realDecoder;
         private AMSController _realAmsController;
@@ -25,6 +28,8 @@ namespace Transponder.Test.Integration
         {
             _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
             _fakeOutput = Substitute.For<IOutput>();
+            _fakeFileLogger = Substitute.For<IFileLogger>();
+            _fakeLogger = Substitute.For<ILogger>();
 
             _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
 
@@ -126,6 +131,32 @@ namespace Transponder.Test.Integration
 
             _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of airplanes inside airspace : 1")));
         }
+
+
+        // DENNE TEST VIRKER IKKE!!!!
+      // [Test]
+      // public void Test_that_filelogger_receives_correct_input_aircrafts_colliding()
+      // {
+      //     List<string> testData = new List<string>();
+      //     testData.Add("ATR423;10000;10000;5000;20151006213456789");
+      //     testData.Add("BCD123;10001;10001;5001;20151006213456789");
+      //     testData.Add("XYZ987;25059;75654;5500;20151006213456789");
+      //
+      //     RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
+      //     _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(this, arg);
+      //
+      //     Assert.That(_nSeparationEvents, Is.EqualTo(1));
+      //
+      //     //_fakeFileLogger.Received().WriteToFile(Arg.Is<string>(str => str.Contains("")));
+      //
+      //
+      //     Assert.That(_fakeLogger.CheckIfFileExists(), Is.EqualTo(true));
+      //
+      //     string str = File.ReadAllText("SeparationEventLogFile.txt");
+      //
+      //     Assert.That(str, Is.EqualTo("Collision event;"));
+      // }
+
 
 
 

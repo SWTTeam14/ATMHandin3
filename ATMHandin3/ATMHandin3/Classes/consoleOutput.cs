@@ -5,7 +5,7 @@ using ATMHandin3.Interfaces;
 
 namespace ATMHandin3.Classes
 {
-    public class ConsoleOutput
+    public class ConsoleOutput : IConsoleOutput
     {
         private IAMSController _amscontroller;
         private ICollisionAvoidanceSystem _collisionAvoidanceSystem;
@@ -17,7 +17,7 @@ namespace ATMHandin3.Classes
         public ConsoleOutput(IAMSController amsController, ICollisionAvoidanceSystem collision, IOutput output)
         {
             _output = output;
-            _collisionAvoidanceSystem = collision;
+            _collisionAvoidanceSystem = collision; 
             AircraftsColliding = new List<SeparationEventArgs>();
             AircraftsJustEnteredAirspace = new List<Aircraft>();
             AircraftsJustExcitedAirspace = new List<Aircraft>();

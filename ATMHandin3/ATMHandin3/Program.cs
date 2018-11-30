@@ -24,7 +24,7 @@ namespace ATMHandin3
             ));
             
             CollisionAvoidanceSystem cas = new CollisionAvoidanceSystem(ams,20000,10000);
-            FileLogger fl = new FileLogger(cas);
+            Logger fl = new Logger(cas);
             Output output = new Output();
 
             ConsoleOutput c = new ConsoleOutput(ams,cas, output);

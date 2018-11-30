@@ -19,14 +19,16 @@ namespace Transponder.Test.Integration
         private AMSController _realAmsController;
         private CollisionAvoidanceSystem _realAvoidanceSystem;
         private ConsoleOutput _realConsoleOutput;
-        private FileLogger _realFileLogger;
+        private Logger _realLogger;
         private Airspace _realAirspace;
+        private IFileLogger _fakeIFileLogger;
         
         [SetUp]
         public void Setup()
         {
             _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
             _fakeOutput = Substitute.For<IOutput>();
+            _fakeIFileLogger = Substitute.For<IFileLogger>();
 
             _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000)
             {
@@ -41,7 +43,8 @@ namespace Transponder.Test.Integration
             _realDecoder = new Decoder(_fakeTransponderReceiver);
             _realAmsController = new AMSController(_realDecoder, _realAirspace);
             _realAvoidanceSystem = new CollisionAvoidanceSystem(_realAmsController, 5000, 300);
-            _realFileLogger = new FileLogger(_realAvoidanceSystem);
+            
+            _realLogger = new Logger(_realAvoidanceSystem);
             _realConsoleOutput = new ConsoleOutput(_realAmsController, _realAvoidanceSystem, _fakeOutput);
             
             _realAvoidanceSystem.SeparationEvent += (o, args) => { ++_nSeperationEvent; };
@@ -64,7 +67,7 @@ namespace Transponder.Test.Integration
 
             Assert.AreEqual(_nSeperationEvent, 1);
 
-            Assert.That(_realFileLogger.CheckIfFileExists(), Is.EqualTo(true));
+            Assert.That(_realLogger.CheckIfFileExists(), Is.EqualTo(true));
 
             string str = File.ReadAllText("SeparationEventLogFile.txt");
 
@@ -86,7 +89,7 @@ namespace Transponder.Test.Integration
 
             _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraftList));
 
-           Assert.That(_realFileLogger.CheckIfFileExists(), Is.EqualTo(false));
+           Assert.That(_realLogger.CheckIfFileExists(), Is.EqualTo(false));
 
         }
 

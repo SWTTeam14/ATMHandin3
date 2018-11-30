@@ -54,6 +54,7 @@
     <Compile Include="Classes\ConsoleOutput.cs" />
     <Compile Include="Classes\Decoder.cs" />
     <Compile Include="Classes\FileLogger.cs" />
+    <Compile Include="Classes\Logger.cs" />
     <Compile Include="Classes\Output.cs" />
     <Compile Include="Events\AircraftsFilteredEventArgs.cs" />
     <Compile Include="Events\DataDecodedEventArgs.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Interfaces\IDecoder.cs" />
     <Compile Include="Interfaces\IAirspace.cs" />
     <Compile Include="Interfaces\IFileLogger.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IOutput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

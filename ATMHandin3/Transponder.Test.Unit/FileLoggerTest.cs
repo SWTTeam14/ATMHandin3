@@ -16,13 +16,13 @@ namespace Transponder.Test.Unit
     public class FileLoggerTest
     {
         private ICollisionAvoidanceSystem _fakeCollisionAvoidanceSystem;
-        private FileLogger _uut;
+        private Logger _uut;
 
         [SetUp]
         public void Setup()
         {
             _fakeCollisionAvoidanceSystem = Substitute.For<ICollisionAvoidanceSystem>();
-            _uut = new FileLogger(_fakeCollisionAvoidanceSystem);
+            _uut = new Logger(_fakeCollisionAvoidanceSystem);
         }
 
         [Test]
