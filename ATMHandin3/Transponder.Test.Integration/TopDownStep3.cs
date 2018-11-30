@@ -77,6 +77,25 @@ namespace Transponder.Test.Integration
         }
 
         [Test]
+        public void Test_that_fileLogger_does_not_write_anything_on_no_seperation_event_EG_file_is_not_found()
+        {
+            _nSeperationEvent = 0;
+
+            List<string> aircraftList = new List<string>();
+
+            string testData1 = "ttt;90000;20000;15000;19940903000000000";
+            string testData2 = "yyy;20000;20000;5000;19940903000000000";
+
+            aircraftList.Add(testData1);
+            aircraftList.Add(testData2);
+
+            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraftList));
+
+           Assert.That(_realFileLogger.CheckIfFileExists(), Is.EqualTo(false));
+
+        }
+
+        [Test]
         public void Test_that_output_gets_the_correct_data_from_avoidance_system_through_consoleOutput()
         {
             //Merge comment
@@ -97,6 +116,56 @@ namespace Transponder.Test.Integration
 
             _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str =>
                 str.Contains("AIRCRAFTS ARE COLLIDING")));
+        }
+
+        [Test]
+        public void Test_that_1_set_of_aircrafts_are_colliding___Interface_between_COA_and_ConsoleOutput()
+        {
+            List<string> testData = new List<string>();
+            testData.Add("ATR423;10006;12933;12001;20151006213456789");
+            testData.Add("BCD123;10005;12932;12000;20151006213456789");
+            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
+
+            RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
+            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
+
+            _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of colliding aircrafts : 1")));
+        }
+
+        //CoalitionAvoidanceSystem
+        [Test]
+        public void TestSeparationEventIsNotRaised()
+        {
+            _nSeperationEvent = 0;
+
+            List<string> testData = new List<string>();
+            testData.Add("ATR423;39045;12932;14000;20151006213456789");
+            testData.Add("BCD123;10005;85890;12000;20151006213456789");
+            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
+
+            RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
+            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
+
+            //We expect based on the previous assert result, that this will result in a separation event.
+            Assert.AreEqual(_nSeperationEvent, 0);
+        }
+
+        //CoalitionAvoidanceSystem
+        [Test]
+        public void TestSeparationEventIsRaised()
+        {
+            _nSeperationEvent = 0;
+
+            List<string> testData = new List<string>();
+            testData.Add("ATR423;39045;12932;14000;20151006213456789");
+            testData.Add("BCD123;10005;85890;12000;20151006213456789");
+            testData.Add("XYZ987;10005;85890;12000;20151006213456789");
+
+            RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
+            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
+
+            //We expect based on the previous assert result, that this will result in a separation event.
+            Assert.AreEqual(_nSeperationEvent, 1);
         }
     }
 }

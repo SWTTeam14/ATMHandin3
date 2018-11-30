@@ -40,47 +40,11 @@ namespace Transponder.Test.Integration
 
             _realAvoidanceSystem.SeparationEvent += (o, args) => { ++_nSeparationEvents; };
         }
-        
-        //CoalitionAvoidanceSystem
+
+        // IF between AMScontroller and output.
         [Test]
-        public void TestSeparationEventIsRaised()
+        public void Test_the_correct_output()
         {
-            _nSeparationEvents = 0;
-
-            List<string> testData = new List<string>();
-            testData.Add("ATR423;39045;12932;14000;20151006213456789");
-            testData.Add("BCD123;10005;85890;12000;20151006213456789");
-            testData.Add("XYZ987;10005;85890;12000;20151006213456789");
-
-            RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
-            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
-
-            //We expect based on the previous assert result, that this will result in a separation event.
-            Assert.AreEqual(_nSeparationEvents, 1);
-        }
-
-        //CoalitionAvoidanceSystem
-        [Test]
-        public void TestSeparationEventIsNotRaised()
-        {
-            _nSeparationEvents = 0;
-
-            List<string> testData = new List<string>();
-            testData.Add("ATR423;39045;12932;14000;20151006213456789");
-            testData.Add("BCD123;10005;85890;12000;20151006213456789");
-            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
-
-            RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
-            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
-
-            //We expect based on the previous assert result, that this will result in a separation event.
-            Assert.AreEqual(_nSeparationEvents, 0);
-        }
-
-        [Test]
-        public void Test_the_correct_output_()
-        {
-
             List<string> testData = new List<string>();
             testData.Add("ATR423;39045;12932;14000;20151006213456789");
             testData.Add("BCD123;10005;85890;12000;20151006213456789");
@@ -92,21 +56,6 @@ namespace Transponder.Test.Integration
             _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("ATR423")));
             _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("BCD123")));
             _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("XYZ987")));
-        }
-
-        
-        [Test]
-        public void Test_that_1_set_of_aircrafts_are_colliding___Interface_between_COA_and_ConsoleOutput()
-        {
-            List<string> testData = new List<string>();
-            testData.Add("ATR423;10006;12933;12001;20151006213456789");
-            testData.Add("BCD123;10005;12932;12000;20151006213456789");
-            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
-
-            RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
-            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
-
-            _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of colliding aircrafts : 1")));
         }
 
         [Test]
@@ -121,10 +70,68 @@ namespace Transponder.Test.Integration
             _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
 
             _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of airplanes inside airspace : 3")));
-            
         }
 
-   
+        [Test]
+        public void Test_that_3_aircrafts_are_inside_airspace_low_corner_case()
+        {
+            List<string> testData = new List<string>();
+            testData.Add("ATR423;10000;10000;5000;20151006213456789");
+            testData.Add("BCD123;10000;10000;5000;20151006213456789");
+            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
+
+            RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
+            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
+
+            _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of airplanes inside airspace : 3")));
+        }
+
+        [Test]
+        public void Test_that_2_aircrafts_are_inside_airspace_and_1_not_low_corner_case()
+        {
+            List<string> testData = new List<string>();
+            testData.Add("ATR423;9999;10000;5000;20151006213456789");
+            testData.Add("BCD123;10000;10000;5000;20151006213456789");
+            testData.Add("XYZ987;25059;75654;4000;20151006213456789");
+
+            RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
+            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
+
+            _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of airplanes inside airspace : 2")));
+        }
+
+        [Test]
+        public void Test_that_1_aircrafts_are_inside_airspace_and_2_not_because_of_altitute_and_y_coordinate()
+        {
+            List<string> testData = new List<string>();
+            testData.Add("ATR423;10000;10000;499;20151006213456789");
+            testData.Add("BCD123;89000;9999;5000;20151006213456789");
+            testData.Add("XYZ987;25059;75654;5500;20151006213456789");
+
+            RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
+            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
+
+            _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of airplanes inside airspace : 1")));
+        }
+
+        [Test]
+        public void Test_that_1_aircrafts_are_inside_airspace_and_2_not_because_of_x_coordinate_and_upper_altitude()
+        {
+            List<string> testData = new List<string>();
+            testData.Add("ATR423;5000;10000;5000;20151006213456789");
+            testData.Add("BCD123;89000;9999;10001;20151006213456789");
+            testData.Add("XYZ987;25059;75654;5500;20151006213456789");
+
+            RawTransponderDataEventArgs arg = new RawTransponderDataEventArgs(testData);
+            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(_fakeTransponderReceiver, arg);
+
+            _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of airplanes inside airspace : 1")));
+        }
+
+
+
+
+
 
 
     }
