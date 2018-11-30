@@ -122,9 +122,5 @@ namespace Transponder.Test.Integration
             _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of airplanes inside airspace : 3")));
             
         }
-
-   
-
-
     }
 }

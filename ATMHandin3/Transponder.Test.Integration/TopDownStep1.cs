@@ -57,8 +57,6 @@ namespace Transponder.Test.Integration
             Thread.Sleep(4000);
 
             Assert.AreEqual(1, _nFilteredAircraftEvent);
-
-
         }
 
         [Test]
@@ -93,7 +91,6 @@ namespace Transponder.Test.Integration
                 Raise.EventWith(this, new RawTransponderDataEventArgs(aircraftTestData));
 
             Assert.That(_nTrackLeftAirspaceEvent, Is.EqualTo(1));
-
         }
 
         [Test]
