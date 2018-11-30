@@ -10,11 +10,12 @@ namespace Transponder.Test.Integration
 {
     public class TopDownStep2
     {
-        private int _nSeparationEvents;
+        private int _nSeparationEvents = 0;
         private int _nFilteredAircraftsEvent = 0;
 
         private ITransponderReceiver _fakeTransponderReceiver;
         private IOutput _fakeOutput;
+        private ICollisionAvoidanceSystem _fakeCollisionAvoidanceSystem;
 
         private Decoder _realDecoder;
         private AMSController _realAmsController;
@@ -27,6 +28,7 @@ namespace Transponder.Test.Integration
         {
             _fakeTransponderReceiver = Substitute.For<ITransponderReceiver>();
             _fakeOutput = Substitute.For<IOutput>();
+            _fakeCollisionAvoidanceSystem = Substitute.For<ICollisionAvoidanceSystem>();
 
             _realAirspace = new Airspace(10000, 10000, 90000, 90000, 500, 20000);
 
@@ -129,27 +131,6 @@ namespace Transponder.Test.Integration
 
             _fakeOutput.Received().OutputWriteline(Arg.Is<string>(str => str.Contains("Number of airplanes inside airspace : 1")));
 
-        }
-
-        [Test]
-        public void Test_if_the_data_received_in_collision_matches_the_data_from_AMScontroller()
-        {
-            _nFilteredAircraftsEvent = 0;
-            
-            List<string> aircraList = new List<string>();
-
-            string testData1 = "ttt;20000;20000;5000;19940903000000000";
-            string testData2 = "yyy;20000;20000;4500;19940903000000000";
-
-            aircraList.Add(testData1);
-            aircraList.Add(testData2);
-
-            _fakeTransponderReceiver.TransponderDataReady += Raise.EventWith(this, new RawTransponderDataEventArgs(aircraList));
-
-            Assert.AreEqual(_nFilteredAircraftsEvent, 1);
-           
-            
-            
         }
     }
 }
